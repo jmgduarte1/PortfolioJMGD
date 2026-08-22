@@ -1,0 +1,170 @@
+@if (content$ | async; as content) {
+  <section class="hero">
+    <div class= "hero_eyebrow">
+      <span class="eyebrow">{{ content.hero.eyebrow }}</span>
+    </div>
+    <div class="hero__content">
+      <h1>{{ content.hero.headline }}</h1>
+      <p class="subtitle">{{ content.hero.subtitle }}</p>
+      <p class="intro">{{ content.hero.intro }}</p>
+      <div class="hero__actions" aria-label="Primary actions">
+        <a mat-flat-button color="primary" [href]="content.hero.primaryCta.href">
+          {{ content.hero.primaryCta.label }}
+        </a>
+        <a mat-stroked-button color="primary" [href]="content.hero.secondaryCta.href">
+          {{ content.hero.secondaryCta.label }}
+        </a>
+      </div>
+    </div>
+
+    <div class="hero__media">
+      <img
+        [src]="content.profile.heroImage"
+        width="1210"
+        height="1024"
+        alt="Professional portrait placeholder for {{ content.profile.name }}"
+        fetchpriority="high"
+      />
+    </div>
+  </section>
+
+  <section class="section about" aria-labelledby="about-title">
+    <div>
+      <p class="section-kicker">Profile</p>
+      <h2 id="about-title">{{ content.about.title }}</h2>
+      <p>{{ content.about.body }}</p>
+    </div>
+    <ul class="highlight-list" aria-label="Profile highlights">
+      @for (highlight of content.about.highlights; track highlight) {
+        <li>{{ highlight }}</li>
+      }
+    </ul>
+  </section>
+
+  <section class="section" id="expertise" aria-labelledby="expertise-title">
+    <p class="section-kicker">Expertise</p>
+    <h2 id="expertise-title">Enterprise frontend strengths</h2>
+    <div class="card-grid">
+      @for (area of content.expertiseAreas; track area.title) {
+        <mat-card appearance="outlined">
+          <mat-card-header>
+            <mat-card-title>{{ area.title }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{ area.summary }}</p>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="skills-title">
+    <p class="section-kicker">Skills</p>
+    <h2 id="skills-title">Current technical focus</h2>
+    <mat-chip-set aria-label="Technical skills">
+      @for (skill of content.skills; track skill) {
+        <mat-chip>{{ skill }}</mat-chip>
+      }
+    </mat-chip-set>
+  </section>
+
+  <section class="section" aria-labelledby="projects-title">
+    <div class="section__header">
+      <div>
+        <p class="section-kicker">Projects</p>
+        <h2 id="projects-title">Evidence-backed work</h2>
+      </div>
+      <a mat-button color="primary" routerLink="/projects">View all projects</a>
+    </div>
+    <div class="card-grid">
+      @for (project of content.projects.slice(0, 3); track project.slug) {
+        <mat-card appearance="outlined">
+          <mat-card-header>
+            <mat-card-title>{{ project.title }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{ project.summary }}</p>
+            <p class="impact">{{ project.impact }}</p>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="experience-title">
+    <div class="section__header">
+      <div>
+        <p class="section-kicker">Experience</p>
+        <h2 id="experience-title">Recent leadership and delivery</h2>
+      </div>
+      <a mat-button color="primary" routerLink="/experience">View experience</a>
+    </div>
+    <div class="timeline">
+      @for (item of content.experience.slice(0, 2); track item.company + item.role) {
+        <article class="timeline__item">
+          <p class="timeline__date">{{ item.dates }}</p>
+          <h3>{{ item.role }} | {{ item.company }}</h3>
+          <p>{{ item.summary }}</p>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section class="section contact" id="contact" aria-labelledby="contact-title">
+    <div>
+      <p class="section-kicker">Contact</p>
+      <h2 id="contact-title">Start a focused conversation</h2>
+      <p>
+        Share the role, project, or hiring context. If there is a job post, include the link or relevant details in the message.
+      </p>
+    </div>
+
+    <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="submitContact()" novalidate>
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" autocomplete="name" />
+        @if (contactForm.controls.name.touched && contactForm.controls.name.invalid) {
+          <mat-error>Please enter your name.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" autocomplete="email" inputmode="email" />
+        @if (contactForm.controls.email.touched && contactForm.controls.email.invalid) {
+          <mat-error>Please enter a valid email address.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Company</mat-label>
+        <input matInput formControlName="company" autocomplete="organization" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Message</mat-label>
+        <textarea
+          matInput
+          formControlName="message"
+          rows="6"
+          placeholder="Tell me about the opportunity, project, or role. If you have a job post, include the link or key details here."
+        ></textarea>
+        @if (contactForm.controls.message.touched && contactForm.controls.message.invalid) {
+          <mat-error>Please include at least 20 characters.</mat-error>
+        }
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" type="submit" [disabled]="isSubmitting">
+        {{ isSubmitting ? 'Sending...' : 'Send Message' }}
+      </button>
+
+      <p class="form-status" aria-live="polite">
+        @if (submitStatus === 'success') {
+          Message saved locally. Email delivery will be enabled through the middleware phase.
+        } @else if (submitStatus === 'error') {
+          The local content server is not available. Please start json-server and try again.
+        }
+      </p>
+    </form>
+  </section>
+}

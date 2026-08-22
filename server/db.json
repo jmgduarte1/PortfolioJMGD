@@ -1,0 +1,182 @@
+{
+  "profile": {
+    "name": "Juan Manuel Gomez",
+    "role": "Senior Frontend / Full-stack Developer",
+    "location": "London, Ontario, Canada",
+    "email": "configured-in-email-middleware@example.com",
+    "linkedin": "https://www.linkedin.com/in/juan-manuel-gomez-duarte",
+    "summary": "Frontend / Full-stack Developer with 10+ years of experience building web applications, eCommerce platforms, and business systems for organizations in Canada and Colombia.",
+    "heroImage": "/assets/hero-placeholder.png"
+  },
+  "navigation": [
+    { "label": "Home", "href": "/" },
+    { "label": "Expertise", "href": "/#expertise" },
+    { "label": "Projects", "href": "/projects" },
+    { "label": "Experience", "href": "/experience" },
+    { "label": "Certifications", "href": "/certifications" },
+    { "label": "Contact", "href": "/#contact" }
+  ],
+  "hero": {
+    "eyebrow": "Senior Frontend Engineering | Enterprise Commerce | Angular-ready Architecture",
+    "headline": "Juan Manuel Gomez",
+    "subtitle": "Senior Frontend / Full-stack Developer",
+    "intro": "I build accessible, maintainable, API-driven web experiences for enterprise commerce and business platforms, combining deep JavaScript and TypeScript experience with current hands-on Angular and React preparation.",
+    "primaryCta": { "label": "Contact Me", "href": "/#contact" },
+    "secondaryCta": { "label": "View Projects", "href": "/projects" }
+  },
+  "about": {
+    "title": "Senior frontend experience with modern framework momentum",
+    "body": "My strongest professional foundation is enterprise frontend delivery: Adobe Commerce / Magento 2, Salesforce UI work, TypeScript, JavaScript, integrations, production troubleshooting, reusable components, and technical leadership. I am currently applying recent Angular and React training to that senior-level foundation through hands-on portfolio and personal projects.",
+    "highlights": [
+      "10+ years of web and software development experience.",
+      "Technical Lead experience supporting planning, estimates, code reviews, debugging, and delivery oversight.",
+      "Professional eCommerce work across Adobe Commerce / Magento, BigCommerce, Salesforce, and API integrations.",
+      "Current Angular and React preparation backed by certifications and hands-on projects."
+    ]
+  },
+  "expertiseAreas": [
+    {
+      "title": "Frontend Architecture",
+      "summary": "Reusable components, responsive layouts, accessible UI patterns, performance-minded implementation, and maintainable TypeScript code."
+    },
+    {
+      "title": "Adobe Commerce / Magento 2",
+      "summary": "Frontend customization across PDP, category pages, cart, checkout, customer workflows, KnockoutJS, templates, modules, APIs, and production support."
+    },
+    {
+      "title": "Salesforce Development",
+      "summary": "Hands-on work with LWC, Apex-supported user interfaces, Experience Builder, Salesforce OMS, OCI, flows, fulfillment workflows, and carrier integrations."
+    },
+    {
+      "title": "Modern Angular And React",
+      "summary": "Current hands-on training and project work with Angular, Angular Material, reactive patterns, React, and component-driven frontend development."
+    }
+  ],
+  "skills": [
+    { "id": 1, "name": "JavaScript" },
+    { "id": 2, "name": "TypeScript" },
+    { "id": 3, "name": "Angular" },
+    { "id": 4, "name": "Angular Material" },
+    { "id": 5, "name": "React" },
+    { "id": 6, "name": "HTML5" },
+    { "id": 7, "name": "CSS3" },
+    { "id": 8, "name": "SCSS" },
+    { "id": 9, "name": "Accessibility" },
+    { "id": 10, "name": "Performance Tuning" },
+    { "id": 11, "name": "REST APIs" },
+    { "id": 12, "name": "GraphQL" },
+    { "id": 13, "name": "Adobe Commerce" },
+    { "id": 14, "name": "Magento 2" },
+    { "id": 15, "name": "KnockoutJS" },
+    { "id": 16, "name": "Salesforce" },
+    { "id": 17, "name": "Lightning Web Components" },
+    { "id": 18, "name": "Apex" },
+    { "id": 19, "name": "PHP" },
+    { "id": 20, "name": "C#" },
+    { "id": 21, "name": "SQL" },
+    { "id": 22, "name": "Git" },
+    { "id": 23, "name": "AI-assisted Engineering" }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "slug": "magento-configurable-product-ux",
+      "title": "Adobe Commerce Configurable Product UX Optimization",
+      "summary": "Customized PDP behavior for configurable products so valid remaining attributes could be inferred automatically in applicable scenarios.",
+      "impact": "Reduced customer interaction from approximately 6-7 selections to as few as 1-2 when product configuration and inventory constraints allowed it.",
+      "tags": ["Adobe Commerce", "Magento 2", "JavaScript", "KnockoutJS", "UX"]
+    },
+    {
+      "id": 2,
+      "slug": "salesforce-carrier-rate-selection",
+      "title": "Salesforce Carrier Rate And Override Workflow",
+      "summary": "Built Apex-supported carrier quotation and LWC override workflows for warehouse and order fulfillment operations.",
+      "impact": "Integrated carrier quotation logic with services such as FedEx and Canada Post, giving users a way to validate and adjust selected carrier options.",
+      "tags": ["Salesforce", "Apex", "LWC", "REST APIs", "Fulfillment"]
+    },
+    {
+      "id": 3,
+      "slug": "angular-portfolio-platform",
+      "title": "Angular SSR Portfolio Platform",
+      "summary": "This portfolio is built with Angular, Angular Material, SSR, accessible UI patterns, and a content repository architecture designed to migrate from json-server to WordPress.",
+      "impact": "Demonstrates current Angular implementation, architecture planning, accessibility, content decoupling, and performance-focused delivery.",
+      "tags": ["Angular", "SSR", "Angular Material", "AODA", "json-server"]
+    }
+  ],
+  "experience": [
+    {
+      "company": "Northern Commerce",
+      "role": "Technical Lead",
+      "dates": "Sep 2022 - Apr 2026",
+      "location": "Remote, London, Ontario",
+      "summary": "Led frontend delivery for enterprise web and eCommerce applications across Adobe Commerce, BigCommerce, and Salesforce environments.",
+      "bullets": [
+        "Mentored developers through technical guidance, code reviews, debugging support, implementation planning, and delivery oversight.",
+        "Troubleshot production issues across UI components, API integrations, data flows, browser behavior, and platform-specific functionality.",
+        "Supported Salesforce, Magento, carrier, delivery, and third-party commerce integrations."
+      ]
+    },
+    {
+      "company": "Northern Commerce",
+      "role": "Frontend Web Developer",
+      "dates": "Dec 2020 - Aug 2022",
+      "location": "London, Ontario, Canada",
+      "summary": "Developed responsive frontend experiences for eCommerce and web applications using JavaScript, TypeScript, KnockoutJS, HTML5, CSS3, SASS, and platform-specific frontend technologies.",
+      "bullets": [
+        "Built UI components, templates, page layouts, and customer-facing workflows for Adobe Commerce / Magento and other commerce platforms.",
+        "Implemented product discovery, account, cart, checkout, order management, and customer-service workflows.",
+        "Integrated frontend functionality with REST APIs, GraphQL, JSON data flows, and third-party platforms."
+      ]
+    },
+    {
+      "company": "Minos IT",
+      "role": "Software Developer Engineer",
+      "dates": "Feb 2018 - Oct 2018",
+      "location": "Bogota, Colombia",
+      "summary": "Developed web applications with MVC architecture, C#, HTML5, CSS3, JavaScript, AngularJS, and jQuery.",
+      "bullets": [
+        "Developed a reusable centralized payment service for checkout pathways.",
+        "Used AngularJS professionally on a unified payment platform.",
+        "Worked with Sybase, SQL Server, and MySQL databases."
+      ]
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Mastering Angular Development",
+      "issuer": "Edureka",
+      "issued": "2026",
+      "url": "https://www.coursera.org/account/accomplishments/specialization/certificate/IE6TAX6F3CGY"
+    },
+    {
+      "name": "Testing and Deploying Angular Applications",
+      "issuer": "Edureka",
+      "issued": "Jul 2026",
+      "url": "https://www.coursera.org/account/accomplishments/records/SUZVVJDA06BD"
+    },
+    {
+      "name": "Meta React",
+      "issuer": "Meta",
+      "issued": "Aug 2026",
+      "url": "https://www.coursera.org/account/accomplishments/specialization/XO7M5CBC90PY"
+    },
+    {
+      "name": "Adobe Certified Professional - Adobe Commerce Developer",
+      "issuer": "Adobe",
+      "issued": "Jul 2021",
+      "url": "https://certification.adobe.com/credential/verify/aab18ae7-a955-4970-a1ee-f953f19859e8"
+    },
+    {
+      "name": "Adobe Certified Professional - Adobe Commerce Business Practitioner",
+      "issuer": "Adobe",
+      "issued": "Feb 2024",
+      "url": "https://certification.adobe.com/credential/verify/f0ec39d0-f678-4510-a41f-3408153608b6"
+    }
+  ],
+  "seo": {
+    "title": "Juan Manuel Gomez Duarte | Senior Frontend / Full-stack Developer",
+    "description": "Senior Frontend / Full-stack Developer in London, Ontario specializing in enterprise frontend, Angular, TypeScript, Adobe Commerce, Magento 2, Salesforce, and API-driven web applications.",
+    "keywords": "Senior Frontend Developer, Angular Developer, TypeScript, Adobe Commerce, Magento 2, Salesforce, London Ontario, Full-stack Developer"
+  },
+  "contactSubmissions": []
+}

@@ -1,0 +1,22 @@
+<section class="page" aria-labelledby="experience-page-title">
+  <p class="kicker">Experience</p>
+  <h1 id="experience-page-title">Professional delivery timeline</h1>
+  <div class="timeline">
+    @for (item of experience$ | async; track item.company + item.role + item.dates) {
+      <mat-card appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>{{ item.role }}</mat-card-title>
+          <mat-card-subtitle>{{ item.company }} | {{ item.dates }} | {{ item.location }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ item.summary }}</p>
+          <ul>
+            @for (bullet of item.bullets; track bullet) {
+              <li>{{ bullet }}</li>
+            }
+          </ul>
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+</section>

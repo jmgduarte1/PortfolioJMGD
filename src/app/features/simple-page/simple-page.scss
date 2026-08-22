@@ -1,0 +1,46 @@
+.page {
+  margin: 0 auto;
+  max-width: 980px;
+  padding: clamp(3rem, 7vw, 6rem) clamp(1rem, 4vw, 2rem);
+}
+
+.kicker {
+  color: #006c7a;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1 {
+  color: #0b3036;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1;
+}
+
+p,
+a {
+  color: #435f64;
+  line-height: 1.7;
+}
+
+a:focus-visible {
+  outline: 3px solid rgba(0, 108, 122, 0.3);
+  outline-offset: 4px;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+mat-card {
+  border-color: #d4e2e4;
+  border-radius: 0.5rem;
+}
+
+@media (max-width: 760px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

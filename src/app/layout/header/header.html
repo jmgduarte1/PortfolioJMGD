@@ -1,0 +1,56 @@
+<header class="site-header">
+  @if (content$ | async; as content) {
+    <div class="site-header__inner">
+    <a class="brand" routerLink="/" aria-label="Juan Manuel Gomez Duarte home">
+      <span class="brand__logo" aria-hidden="true">
+        <img src="/assets/logo-square.png" alt="" width="64" height="64" />
+      </span>
+      <span class="brand__text">{{ content.profile.name }}</span>
+    </a>
+
+    <nav class="primary-nav" aria-label="Primary navigation">
+      @for (item of content.navigation; track item.href) {
+        <a [href]="item.href">{{ item.label }}</a>
+      }
+    </nav>
+
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-controls="mobile-navigation"
+      aria-label="Open navigation menu"
+      [attr.aria-expanded]="isMobileMenuOpen"
+      (click)="toggleMobileMenu()"
+    >
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+
+  @if (isMobileMenuOpen) {
+    <button
+      class="mobile-menu__backdrop"
+      type="button"
+      aria-label="Close navigation menu"
+      (click)="closeMobileMenu()"
+    ></button>
+
+    <nav id="mobile-navigation" class="mobile-nav" aria-label="Mobile navigation">
+      <div class="mobile-nav__header">
+        <span>Menu</span>
+        <button class="mobile-nav__close" type="button" aria-label="Close navigation menu" (click)="closeMobileMenu()">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <div class="mobile-nav__links">
+        @for (item of content.navigation; track item.href) {
+          <a [href]="item.href" (click)="closeMobileMenu()">{{ item.label }}</a>
+        }
+      </div>
+    </nav>
+  }
+  }
+</header>

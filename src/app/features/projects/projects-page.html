@@ -1,0 +1,26 @@
+<section class="page" aria-labelledby="projects-page-title">
+  <p class="kicker">Projects</p>
+  <h1 id="projects-page-title">Selected project evidence</h1>
+  <p class="lead">
+    A focused set of portfolio-ready examples based on verified professional achievements and current Angular work.
+  </p>
+
+  <div class="grid">
+    @for (project of projects$ | async; track project.slug) {
+      <mat-card appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>{{ project.title }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ project.summary }}</p>
+          <p class="impact">{{ project.impact }}</p>
+          <mat-chip-set aria-label="Project tags">
+            @for (tag of project.tags; track tag) {
+              <mat-chip>{{ tag }}</mat-chip>
+            }
+          </mat-chip-set>
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+</section>
