@@ -13,6 +13,7 @@ import {
   Profile,
   Project,
   SeoContent,
+  SkillGroup,
 } from '../models/portfolio-content';
 import { ContentRepository } from './content-repository';
 import { fallbackContent } from './fallback-content';
@@ -38,6 +39,7 @@ export class JsonServerContentRepository extends ContentRepository {
       skills: this.http
         .get<SkillRecord[]>(`${API_BASE_URL}/skills`)
         .pipe(map((skills) => skills.map((skill) => skill.name))),
+      skillGroups: this.http.get<SkillGroup[]>(`${API_BASE_URL}/skillGroups`),
       projects: this.http.get<Project[]>(`${API_BASE_URL}/projects`),
       experience: this.http.get<ExperienceItem[]>(`${API_BASE_URL}/experience`),
       certifications: this.http.get<Certification[]>(`${API_BASE_URL}/certifications`),

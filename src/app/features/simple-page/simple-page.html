@@ -19,11 +19,18 @@
     } @else if (page === 'skills') {
       <p class="kicker">Skills</p>
       <h1 id="skills-title">Technical skills</h1>
-      <mat-chip-set aria-label="Technical skills">
-        @for (skill of content.skills; track skill) {
-          <mat-chip>{{ skill }}</mat-chip>
+      <div class="skills-grid">
+        @for (group of content.skillGroups; track group.title) {
+          <article class="skill-group">
+            <h2>{{ group.title }}</h2>
+            <mat-chip-set [attr.aria-label]="group.title + ' skills'">
+              @for (skill of group.skills; track skill) {
+                <mat-chip>{{ skill }}</mat-chip>
+              }
+            </mat-chip-set>
+          </article>
         }
-      </mat-chip-set>
+      </div>
     } @else {
       <p class="kicker">Accessibility</p>
       <h1 id="accessibility-title">Accessibility commitment</h1>

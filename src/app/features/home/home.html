@@ -1,9 +1,10 @@
 @if (content$ | async; as content) {
   <section class="hero">
-    <div class= "hero_eyebrow">
+    <div class="hero_eyebrow">
       <span class="eyebrow">{{ content.hero.eyebrow }}</span>
     </div>
     <div class="hero__content">
+      <!-- <p class="eyebrow">{{ content.hero.eyebrow }}</p> -->
       <h1>{{ content.hero.headline }}</h1>
       <p class="subtitle">{{ content.hero.subtitle }}</p>
       <p class="intro">{{ content.hero.intro }}</p>
@@ -18,13 +19,15 @@
     </div>
 
     <div class="hero__media">
-      <img
-        [src]="content.profile.heroImage"
-        width="1210"
-        height="1024"
-        alt="Professional portrait placeholder for {{ content.profile.name }}"
-        fetchpriority="high"
-      />
+      <div class="hero__portrait-frame">
+        <img
+          [src]="content.profile.heroImage"
+          width="1210"
+          height="1024"
+          alt="Professional portrait placeholder for {{ content.profile.name }}"
+          fetchpriority="high"
+        />
+      </div>
     </div>
   </section>
 
@@ -46,9 +49,14 @@
     <h2 id="expertise-title">Enterprise frontend strengths</h2>
     <div class="card-grid">
       @for (area of content.expertiseAreas; track area.title) {
-        <mat-card appearance="outlined">
+        <mat-card class="feature-card" appearance="outlined">
           <mat-card-header>
             <mat-card-title>{{ area.title }}</mat-card-title>
+            @if (area.tags?.length) {
+              <mat-card-subtitle>
+                <span class="card-tag">{{ area.tags?.[0] }}</span>
+              </mat-card-subtitle>
+            }
           </mat-card-header>
           <mat-card-content>
             <p>{{ area.summary }}</p>
@@ -61,11 +69,18 @@
   <section class="section" aria-labelledby="skills-title">
     <p class="section-kicker">Skills</p>
     <h2 id="skills-title">Current technical focus</h2>
-    <mat-chip-set aria-label="Technical skills">
-      @for (skill of content.skills; track skill) {
-        <mat-chip>{{ skill }}</mat-chip>
+    <div class="skills-grid">
+      @for (group of content.skillGroups; track group.title) {
+        <article class="skill-group">
+          <h3>{{ group.title }}</h3>
+          <mat-chip-set [attr.aria-label]="group.title + ' skills'">
+            @for (skill of group.skills; track skill) {
+              <mat-chip>{{ skill }}</mat-chip>
+            }
+          </mat-chip-set>
+        </article>
       }
-    </mat-chip-set>
+    </div>
   </section>
 
   <section class="section" aria-labelledby="projects-title">
@@ -78,13 +93,21 @@
     </div>
     <div class="card-grid">
       @for (project of content.projects.slice(0, 3); track project.slug) {
-        <mat-card appearance="outlined">
+        <mat-card class="feature-card project-card" appearance="outlined">
           <mat-card-header>
             <mat-card-title>{{ project.title }}</mat-card-title>
+            @if (project.tags.length) {
+              <mat-card-subtitle>
+                <span class="card-tag">{{ project.tags[0] }}</span>
+              </mat-card-subtitle>
+            }
           </mat-card-header>
           <mat-card-content>
             <p>{{ project.summary }}</p>
-            <p class="impact">{{ project.impact }}</p>
+            <div class="impact-callout">
+              <span>Impact</span>
+              <p>{{ project.impact }}</p>
+            </div>
           </mat-card-content>
         </mat-card>
       }
@@ -102,9 +125,12 @@
     <div class="timeline">
       @for (item of content.experience.slice(0, 2); track item.company + item.role) {
         <article class="timeline__item">
-          <p class="timeline__date">{{ item.dates }}</p>
-          <h3>{{ item.role }} | {{ item.company }}</h3>
-          <p>{{ item.summary }}</p>
+          <div class="timeline__marker" aria-hidden="true"></div>
+          <div>
+            <p class="timeline__date">{{ item.dates }}</p>
+            <h3>{{ item.role }} | {{ item.company }}</h3>
+            <p>{{ item.summary }}</p>
+          </div>
         </article>
       }
     </div>

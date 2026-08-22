@@ -7,13 +7,21 @@
 
   <div class="grid">
     @for (project of projects$ | async; track project.slug) {
-      <mat-card appearance="outlined">
+      <mat-card class="project-card" appearance="outlined">
         <mat-card-header>
           <mat-card-title>{{ project.title }}</mat-card-title>
+          @if (project.tags.length) {
+            <mat-card-subtitle>
+              <span class="card-tag">{{ project.tags[0] }}</span>
+            </mat-card-subtitle>
+          }
         </mat-card-header>
         <mat-card-content>
           <p>{{ project.summary }}</p>
-          <p class="impact">{{ project.impact }}</p>
+          <div class="impact-callout">
+            <span>Impact</span>
+            <p>{{ project.impact }}</p>
+          </div>
           <mat-chip-set aria-label="Project tags">
             @for (tag of project.tags; track tag) {
               <mat-chip>{{ tag }}</mat-chip>

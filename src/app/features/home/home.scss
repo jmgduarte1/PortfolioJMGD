@@ -10,7 +10,7 @@
   display: grid;
   column-gap: clamp(2rem, 5vw, 4rem);
   grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
-  row-gap: 0.625rem;
+  row-gap: 1.025rem;
 }
 
 .eyebrow,
@@ -18,10 +18,20 @@
 .timeline__date {
   color: #006c7a;
   font-size: 0.82rem;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.08em;
   margin: 0 0 0.75rem;
   text-transform: uppercase;
+}
+
+.eyebrow {
+  background: #eef9fa;
+  border: 1px solid rgba(0, 108, 122, 0.16);
+  border-radius: 999px;
+  display: inline-flex;
+  letter-spacing: 0.06em;
+  margin: 0;
+  padding: 0.45rem 0.75rem;
 }
 
 h1,
@@ -67,7 +77,6 @@ mat-card-title {
 
 .hero_eyebrow {
   grid-column: 1 / -1;
-  width: 100%;
 }
 
 .hero__actions,
@@ -80,11 +89,26 @@ mat-card-title {
 
 .hero__media img {
   aspect-ratio: 1 / 1;
-  border-radius: 1rem;
-  box-shadow: 0 20px 60px rgba(8, 63, 70, 0.18);
+  border-radius: 0.85rem;
   height: auto;
   object-fit: cover;
   width: 100%;
+}
+
+.hero__portrait-frame {
+  border-radius: 0.85rem;
+  outline: 2px solid #006c7a;
+  outline-offset: 8px;
+  position: relative;
+}
+
+.hero__portrait-frame::before {
+  background: #e5f6f8;
+  border-radius: 0.85rem;
+  content: '';
+  inset: 1rem -1rem -1rem 1rem;
+  position: absolute;
+  z-index: -1;
 }
 
 .about,
@@ -114,27 +138,127 @@ mat-card-title {
 }
 
 mat-card {
-  border-color: #d4e2e4;
+  border-color: rgba(0, 128, 128, 0.12);
   border-radius: 0.5rem;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
 }
 
-.impact {
+.feature-card {
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.feature-card:hover {
+  border-color: rgba(0, 108, 122, 0.28);
+  box-shadow: 0 10px 28px -10px rgba(15, 23, 42, 0.16);
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+}
+
+.card-tag {
+  background: #eef9fa;
+  border: 1px solid rgba(0, 108, 122, 0.14);
+  border-radius: 999px;
+  color: #00616d;
+  display: inline-flex;
+  font-size: 0.76rem;
+  font-weight: 800;
+  line-height: 1;
+  padding: 0.35rem 0.55rem;
+}
+
+.impact-callout {
+  background: #f1fbfb;
+  border-left: 4px solid #006c7a;
+  border-radius: 0.4rem;
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+}
+
+.impact-callout span {
+  color: #00616d;
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.35rem;
+  text-transform: uppercase;
+}
+
+.impact-callout p {
   color: #0b525d;
   font-weight: 700;
+  margin: 0;
 }
 
 mat-chip-set {
   display: block;
 }
 
-.timeline {
+.skills-grid {
   display: grid;
   gap: 1rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.skill-group {
+  background: #ffffff;
+  border: 1px solid rgba(0, 128, 128, 0.12);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+  padding: 1rem;
+}
+
+.skill-group h3 {
+  font-size: 1rem;
+  margin-bottom: 0.85rem;
+}
+
+.timeline {
+  display: grid;
+  gap: 0;
+  position: relative;
 }
 
 .timeline__item {
-  border-left: 4px solid #006c7a;
-  padding-left: 1rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1rem minmax(0, 1fr);
+  padding: 0 0 1.5rem;
+  position: relative;
+}
+
+.timeline__item::before {
+  background: #b9dadd;
+  bottom: 0;
+  content: '';
+  left: 0.45rem;
+  position: absolute;
+  top: 0.95rem;
+  width: 2px;
+}
+
+.timeline__item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline__item:last-child::before {
+  display: none;
+}
+
+.timeline__marker {
+  background: #006c7a;
+  border: 3px solid #e5f6f8;
+  border-radius: 999px;
+  height: 1rem;
+  margin-top: 0.25rem;
+  position: relative;
+  width: 1rem;
+  z-index: 1;
 }
 
 .contact-form {
@@ -156,10 +280,23 @@ mat-chip-set {
   .card-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .skills-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 640px) {
-  .card-grid {
+  .card-grid,
+  .skills-grid {
     grid-template-columns: 1fr;
+  }
+
+  .hero__portrait-frame {
+    outline-offset: 5px;
+  }
+
+  .hero__portrait-frame::before {
+    inset: 0.75rem -0.5rem -0.5rem 0.75rem;
   }
 }

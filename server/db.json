@@ -37,19 +37,23 @@
   "expertiseAreas": [
     {
       "title": "Frontend Architecture",
-      "summary": "Reusable components, responsive layouts, accessible UI patterns, performance-minded implementation, and maintainable TypeScript code."
+      "summary": "Reusable components, responsive layouts, accessible UI patterns, performance-minded implementation, and maintainable TypeScript code.",
+      "tags": ["TypeScript", "A11y"]
     },
     {
       "title": "Adobe Commerce / Magento 2",
-      "summary": "Frontend customization across PDP, category pages, cart, checkout, customer workflows, KnockoutJS, templates, modules, APIs, and production support."
+      "summary": "Frontend customization across PDP, category pages, cart, checkout, customer workflows, KnockoutJS, templates, modules, APIs, and production support.",
+      "tags": ["Magento", "Commerce"]
     },
     {
       "title": "Salesforce Development",
-      "summary": "Hands-on work with LWC, Apex-supported user interfaces, Experience Builder, Salesforce OMS, OCI, flows, fulfillment workflows, and carrier integrations."
+      "summary": "Hands-on work with LWC, Apex-supported user interfaces, Experience Builder, Salesforce OMS, OCI, flows, fulfillment workflows, and carrier integrations.",
+      "tags": ["Salesforce", "LWC"]
     },
     {
       "title": "Modern Angular And React",
-      "summary": "Current hands-on training and project work with Angular, Angular Material, reactive patterns, React, and component-driven frontend development."
+      "summary": "Current hands-on training and project work with Angular, Angular Material, reactive patterns, React, and component-driven frontend development.",
+      "tags": ["Angular", "React"]
     }
   ],
   "skills": [
@@ -76,6 +80,28 @@
     { "id": 21, "name": "SQL" },
     { "id": 22, "name": "Git" },
     { "id": 23, "name": "AI-assisted Engineering" }
+  ],
+  "skillGroups": [
+    {
+      "id": 1,
+      "title": "Modern Frontend",
+      "skills": ["Angular", "Angular Material", "React", "TypeScript", "JavaScript", "HTML5", "CSS3", "SCSS"]
+    },
+    {
+      "id": 2,
+      "title": "Enterprise Commerce",
+      "skills": ["Adobe Commerce", "Magento 2", "BigCommerce", "KnockoutJS", "Performance Tuning"]
+    },
+    {
+      "id": 3,
+      "title": "Salesforce",
+      "skills": ["Salesforce", "Lightning Web Components", "Apex", "Experience Builder"]
+    },
+    {
+      "id": 4,
+      "title": "APIs And Delivery",
+      "skills": ["REST APIs", "GraphQL", "PHP", "C#", "SQL", "Git", "AI-assisted Engineering"]
+    }
   ],
   "projects": [
     {

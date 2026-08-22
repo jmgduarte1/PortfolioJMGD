@@ -36,6 +36,12 @@ export interface About {
 export interface ExpertiseArea {
   title: string;
   summary: string;
+  tags?: string[];
+}
+
+export interface SkillGroup {
+  title: string;
+  skills: string[];
 }
 
 export interface Project {
@@ -76,6 +82,7 @@ export interface PortfolioContent {
   about: About;
   expertiseAreas: ExpertiseArea[];
   skills: string[];
+  skillGroups: SkillGroup[];
   projects: Project[];
   experience: ExperienceItem[];
   certifications: Certification[];

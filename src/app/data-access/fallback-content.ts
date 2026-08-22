@@ -43,21 +43,43 @@ export const fallbackContent: PortfolioContent = {
     {
       title: 'Frontend Architecture',
       summary: 'Reusable components, responsive layouts, accessible UI patterns, and maintainable TypeScript code.',
+      tags: ['TypeScript', 'A11y'],
     },
     {
       title: 'Adobe Commerce / Magento 2',
       summary: 'Frontend customization across PDP, cart, checkout, KnockoutJS, templates, modules, and APIs.',
+      tags: ['Magento', 'Commerce'],
     },
     {
       title: 'Salesforce Development',
       summary: 'LWC, Apex-supported UI, Experience Builder, OMS/OCI workflows, and carrier integrations.',
+      tags: ['Salesforce', 'LWC'],
     },
     {
       title: 'Modern Angular And React',
       summary: 'Current hands-on training and project work with Angular, Angular Material, and React.',
+      tags: ['Angular', 'React'],
     },
   ],
   skills: ['JavaScript', 'TypeScript', 'Angular', 'React', 'Adobe Commerce', 'Magento 2', 'Salesforce'],
+  skillGroups: [
+    {
+      title: 'Modern Frontend',
+      skills: ['Angular', 'Angular Material', 'React', 'TypeScript', 'JavaScript'],
+    },
+    {
+      title: 'Enterprise Commerce',
+      skills: ['Adobe Commerce', 'Magento 2', 'BigCommerce', 'KnockoutJS'],
+    },
+    {
+      title: 'Salesforce',
+      skills: ['Salesforce', 'Lightning Web Components', 'Apex', 'Experience Builder'],
+    },
+    {
+      title: 'APIs And Delivery',
+      skills: ['REST APIs', 'GraphQL', 'Accessibility', 'Performance Tuning', 'Git'],
+    },
+  ],
   projects: [],
   experience: [],
   certifications: [],
