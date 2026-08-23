@@ -1,59 +1,434 @@
-# PortfolioJmgd
+# Juan Manuel Gomez Duarte — Personal Portfolio
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.19.
+A modern Angular portfolio focused on demonstrating senior frontend engineering practices, enterprise web experience, accessible UI development, API-driven architecture, and AI-assisted software engineering workflows.
 
-## Development server
+The application is designed as more than a static portfolio: it uses a typed, backend-independent content architecture that can evolve from a local development API to a production CMS without coupling Angular components to the persistence layer.
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
+## Project Overview
+
+This portfolio presents professional experience, technical expertise, projects, certifications, and case studies through a responsive Angular application.
+
+The project is built to demonstrate practical engineering capabilities including:
+
+* Modern Angular development
+* TypeScript architecture
+* Component-based UI design
+* API-driven applications
+* Frontend/backend separation
+* Accessibility
+* Performance optimization
+* Server-side rendering and prerendering
+* Enterprise eCommerce and platform experience
+* Maintainable frontend architecture
+* AI-assisted engineering workflows
+
+The primary audience includes recruiters, hiring managers, technical leads, and engineering managers evaluating senior frontend, full-stack, Angular, eCommerce, Salesforce, and enterprise web development experience.
+
+---
+
+## Technology Stack
+
+### Frontend
+
+* Angular 21
+* TypeScript
+* Standalone Angular Components
+* Angular Material
+* Angular CDK
+* SCSS
+* Angular SSR / Prerendering
+
+### Content and Data Access
+
+* `json-server` — current development content API
+* Typed application domain models
+* Repository-based content abstraction
+* Planned WordPress REST API integration
+
+### Development Quality
+
+* Strict TypeScript
+* Unit testing
+* Accessibility-first implementation
+* SSR compatibility
+* Lighthouse-oriented performance optimization
+* Structured architectural documentation
+
+---
+
+## Architecture Highlights
+
+### Backend-Independent Content Access
+
+Angular components do not depend directly on the current content backend.
+
+The application uses a repository boundary:
+
+```text
+Angular Components
+        |
+        v
+Services / Facades
+        |
+        v
+ContentRepository
+        |
+        +--> JsonServerContentRepository
+        |
+        +--> WordPressContentRepository
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+The current implementation uses `JsonServerContentRepository`.
 
-## Code scaffolding
+A future production phase is designed to replace it with `WordPressContentRepository` without requiring the presentation layer to understand WordPress-specific response structures.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+This keeps:
 
-```bash
-ng generate component component-name
+* Components backend-independent
+* Domain models stable
+* API mapping isolated
+* Backend migrations localized to the data-access layer
+
+---
+
+## Component Architecture
+
+UI components follow an explicit separation between behavior, markup, and presentation.
+
+```text
+component-name/
+├── component-name.component.ts
+├── component-name.component.html
+└── component-name.component.scss
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Inline templates and inline styles are intentionally avoided for UI components.
 
-```bash
-ng generate --help
+The application follows a feature-oriented structure:
+
+```text
+src/app/
+├── core/
+├── shared/
+├── layout/
+├── features/
+├── data-access/
+└── models/
 ```
 
-## Building
+This keeps feature-specific code close to its domain while separating reusable UI, infrastructure, and backend integration concerns.
 
-To build the project run:
+---
 
-```bash
-ng build
+## Accessibility
+
+Accessibility is treated as an engineering requirement rather than a post-development enhancement.
+
+Target:
+
+**AODA / WCAG 2.0 Level AA**, with WCAG 2.1 AA practices applied where practical.
+
+The implementation considers:
+
+* Semantic HTML
+* Logical heading hierarchy
+* Keyboard accessibility
+* Visible focus states
+* Accessible names
+* Form labels and validation feedback
+* Color contrast
+* Responsive text and zoom
+* Reduced-motion support
+
+Accessibility validation is part of the release workflow.
+
+---
+
+## Performance
+
+The project targets:
+
+**Lighthouse Performance > 90**
+
+on both desktop and mobile.
+
+Performance considerations include:
+
+* Angular SSR / prerendering
+* Route-level lazy loading where beneficial
+* Minimal dependency usage
+* Optimized assets
+* Controlled client-side JavaScript
+* Image sizing and optimization
+* Core Web Vitals monitoring
+
+Relevant metrics include:
+
+* LCP
+* CLS
+* INP
+
+---
+
+## AI-Assisted Engineering
+
+This project also demonstrates a structured approach to AI-assisted software development.
+
+AI coding agents are used to accelerate activities such as:
+
+* Technical planning
+* Implementation support
+* Code analysis
+* Refactoring
+* Documentation
+* Testing
+* Debugging
+* Architecture review
+
+AI-generated output is treated as proposed engineering work rather than automatically accepted code.
+
+Architecture, correctness, maintainability, accessibility, security, testing, and final technical decisions remain developer responsibilities.
+
+Agent working conventions are documented in:
+
+```text
+AGENTS.md
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+This includes explicit requirements around architecture, validation, component structure, backend boundaries, accessibility, and implementation workflow.
 
-## Running unit tests
+---
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Current Project Status
 
-```bash
-ng test
+Core Angular implementation is substantially complete.
+
+Implemented areas include:
+
+* Angular application setup
+* SSR / prerendering
+* Angular Material integration
+* Portfolio content models
+* Repository-based content access
+* `json-server` development backend
+* Homepage sections
+* Detail routes
+* Contact form UI
+* Development contact submission flow
+* SEO/meta handling
+* Production build verification
+* Unit test verification
+
+Current validation work focuses on:
+
+* Accessibility audits
+* Lighthouse desktop validation
+* Lighthouse mobile validation
+* Performance optimization
+
+Future phases include:
+
+* WordPress content backend
+* Production contact email middleware
+
+See the detailed roadmap:
+
+```text
+docs/project/ROADMAP.md
 ```
 
-## Running end-to-end tests
+---
 
-For end-to-end (e2e) testing, run:
+## Getting Started
+
+### Prerequisites
+
+Install Node.js and npm versions compatible with the project configuration.
+
+Check `package.json` for project-specific requirements.
+
+### Install Dependencies
 
 ```bash
-ng e2e
+npm install
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+### Start Local Development
 
-## Additional Resources
+```bash
+npm run dev
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+This starts:
+
+```text
+Angular frontend:
+http://localhost:4200
+
+json-server API:
+http://localhost:3000
+```
+
+---
+
+## Content API
+
+Phase 1 portfolio content is stored in:
+
+```text
+server/db.json
+```
+
+To start only the development content API:
+
+```bash
+npm run api
+```
+
+Example endpoints:
+
+```text
+http://localhost:3000/profile
+http://localhost:3000/projects
+http://localhost:3000/experience
+http://localhost:3000/contactSubmissions
+```
+
+---
+
+## Build
+
+Create a production build with:
+
+```bash
+npm run build
+```
+
+The application uses Angular SSR/prerendering.
+
+Build output is generated under:
+
+```text
+dist/portfolio-jmgd
+```
+
+---
+
+## Tests
+
+Run the automated test suite with:
+
+```bash
+npm test -- --watch=false
+```
+
+Code is not considered complete solely because it compiles. Relevant changes should also be validated through testing, browser verification, accessibility checks, SSR compatibility, and performance review where applicable.
+
+---
+
+## Contact Architecture
+
+The Angular frontend does not send email directly or contain email-provider credentials.
+
+Production contact delivery is designed around a separate Node.js / Express middleware:
+
+```text
+Angular Contact Form
+        |
+        | POST /api/contact
+        v
+Node.js / Express Middleware
+        |
+        v
+Email Provider
+```
+
+This keeps:
+
+* Email credentials server-side
+* Validation server-side
+* Rate limiting outside the frontend
+* CORS restrictions centralized
+* Spam protection within the API layer
+
+The middleware is planned as a separate deployable repository.
+
+---
+
+## WordPress Migration
+
+The current development environment uses `json-server`.
+
+The production content architecture is designed to migrate to WordPress through a dedicated repository implementation rather than rewriting Angular components.
+
+The planned migration includes:
+
+```text
+ContentRepository
+        |
+        v
+WordPressContentRepository
+        |
+        v
+WordPress REST API
+```
+
+Backend-specific response structures will be mapped into the existing portfolio domain models.
+
+---
+
+## Project Documentation
+
+Detailed technical documentation is available under `docs/`.
+
+### Project
+
+* [`docs/project/PROJECT_OVERVIEW.md`](docs/project/PROJECT_OVERVIEW.md)
+* [`docs/project/ROADMAP.md`](docs/project/ROADMAP.md)
+
+### Architecture
+
+* [`docs/architecture/FRONTEND_ARCHITECTURE.md`](docs/architecture/FRONTEND_ARCHITECTURE.md)
+* [`docs/architecture/WORDPRESS_CONTENT_MIGRATION.md`](docs/architecture/WORDPRESS_CONTENT_MIGRATION.md)
+* [`docs/architecture/EMAIL_MIDDLEWARE_ARCHITECTURE.md`](docs/architecture/EMAIL_MIDDLEWARE_ARCHITECTURE.md)
+
+### Decisions
+
+* [`docs/decisions/PROJECT_DECISIONS.md`](docs/decisions/PROJECT_DECISIONS.md)
+
+### Development
+
+* [`docs/DEVELOPMENT_GUIDE.md`](docs/DEVELOPMENT_GUIDE.md)
+
+### AI Agent Instructions
+
+* [`AGENTS.md`](AGENTS.md)
+
+---
+
+## Engineering Principles
+
+The project follows several core principles:
+
+* Understand existing architecture before changing it.
+* Prefer simple solutions over premature abstraction.
+* Keep UI components focused.
+* Keep backend-specific concerns out of presentation code.
+* Preserve strict typing.
+* Treat accessibility as a requirement.
+* Measure performance rather than assume it.
+* Validate AI-assisted implementation before accepting it.
+* Document meaningful architectural decisions.
+* Keep the codebase easier to understand after every meaningful change.
+
+---
+
+## Author
+
+**Juan Manuel Gomez Duarte**
+
+Senior Frontend / Full-stack Developer
+
+London, Ontario, Canada
