@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, viewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -10,6 +10,8 @@ import { RouterLink } from '@angular/router';
 import { finalize, tap } from 'rxjs';
 import { SeoService } from '../../core/seo.service';
 import { ContentRepository } from '../../data-access/content-repository';
+import { ContactService } from '../../core/contact.service';
+import { TurnstileComponent } from '../../shared/turnstile/turnstile.component';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +24,7 @@ import { ContentRepository } from '../../data-access/content-repository';
     MatChipsModule,
     MatFormFieldModule,
     MatInputModule,
+    TurnstileComponent,
   ],
   templateUrl: './home.html',
   styleUrl: './home.scss',
@@ -30,6 +33,8 @@ export class Home {
   private readonly contentRepository = inject(ContentRepository);
   private readonly formBuilder = inject(FormBuilder);
   private readonly seo = inject(SeoService);
+  private readonly contactService = inject(ContactService);
+  private readonly turnstile = viewChild(TurnstileComponent);
 
   protected readonly content$ = this.contentRepository.getContent().pipe(
     tap((content) => this.seo.apply(content.seo)),
@@ -43,6 +48,8 @@ export class Home {
     email: ['', [Validators.required, Validators.email]],
     company: [''],
     message: ['', [Validators.required, Validators.minLength(20)]],
+    turnstileToken: ['', Validators.required],
+    website: [''],
   });
 
   protected submitContact(): void {
@@ -54,20 +61,23 @@ export class Home {
     this.isSubmitting = true;
     this.submitStatus = 'idle';
 
-    this.contentRepository
-      .submitContact({
-        ...this.contactForm.getRawValue(),
-        createdAt: new Date().toISOString(),
-      })
+    this.contactService
+      .submit(this.contactForm.getRawValue())
       .pipe(finalize(() => (this.isSubmitting = false)))
       .subscribe({
         next: () => {
           this.submitStatus = 'success';
           this.contactForm.reset();
+          this.turnstile()?.reset();
         },
         error: () => {
           this.submitStatus = 'error';
+          this.turnstile()?.reset();
         },
       });
+  }
+
+  protected setTurnstileToken(token: string): void {
+    this.contactForm.controls.turnstileToken.setValue(token);
   }
 }

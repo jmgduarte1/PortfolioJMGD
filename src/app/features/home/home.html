@@ -146,6 +146,10 @@
     </div>
 
     <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="submitContact()" novalidate>
+      <div class="contact-form__honeypot" aria-hidden="true">
+        <label for="contact-website">Leave this field empty</label>
+        <input id="contact-website" formControlName="website" tabindex="-1" autocomplete="off" />
+      </div>
       <mat-form-field appearance="outline">
         <mat-label>Name</mat-label>
         <input matInput formControlName="name" autocomplete="name" />
@@ -153,6 +157,14 @@
           <mat-error>Please enter your name.</mat-error>
         }
       </mat-form-field>
+
+      <app-turnstile
+        (tokenChange)="setTurnstileToken($event)"
+        (verificationError)="submitStatus = 'error'"
+      />
+      @if (contactForm.controls.turnstileToken.touched && contactForm.controls.turnstileToken.invalid) {
+        <p class="verification-error">Please complete the bot verification.</p>
+      }
 
       <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
@@ -186,9 +198,9 @@
 
       <p class="form-status" aria-live="polite">
         @if (submitStatus === 'success') {
-          Message saved locally. Email delivery will be enabled through the middleware phase.
+          Your message was sent successfully.
         } @else if (submitStatus === 'error') {
-          The local content server is not available. Please start json-server and try again.
+          Your message could not be sent. Please complete verification and try again.
         }
       </p>
     </form>

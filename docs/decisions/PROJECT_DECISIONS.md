@@ -439,6 +439,26 @@ Explicit separation between behavior, markup, and presentation improves:
 
 ---
 
+## PD-022 — Contact Form Uses Runtime-Configured Middleware and Turnstile
+
+**Status:** Accepted
+
+The contact form submits through a dedicated `ContactService` to a runtime-configured middleware URL and obtains a Cloudflare Turnstile token in the browser.
+
+### Rationale
+
+The public browser cannot safely hold a shared authentication credential. A public site key plus server-verified, short-lived Turnstile tokens provides abuse verification while keeping the secret in EmailMiddleware.
+
+### Consequences
+
+- `/app-config.json` contains only the public API URL and public Turnstile site key.
+- Email and Turnstile secrets never enter the Angular build.
+- A honeypot and Turnstile token are included in the contact request.
+- The widget is initialized only in the browser to preserve SSR compatibility.
+- Contact submissions no longer use `json-server`.
+
+---
+
 ## Decision Maintenance
 
 Record a new decision when it materially affects:

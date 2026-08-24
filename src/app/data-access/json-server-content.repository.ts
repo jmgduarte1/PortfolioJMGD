@@ -4,7 +4,6 @@ import { forkJoin, map, Observable, of, catchError } from 'rxjs';
 import {
   About,
   Certification,
-  ContactSubmission,
   ExperienceItem,
   ExpertiseArea,
   Hero,
@@ -65,9 +64,4 @@ export class JsonServerContentRepository extends ContentRepository {
     );
   }
 
-  override submitContact(submission: ContactSubmission): Observable<ContactSubmission> {
-    return this.http
-      .post<ContactSubmission>(`${API_BASE_URL}/contactSubmissions`, submission)
-      .pipe(map((savedSubmission) => savedSubmission));
-  }
 }

@@ -1,0 +1,4 @@
+{
+  "contactApiUrl": "http://localhost:8080/api/contact",
+  "turnstileSiteKey": "1x00000000000000000000AA"
+}

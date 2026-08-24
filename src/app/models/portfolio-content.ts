@@ -88,11 +88,3 @@ export interface PortfolioContent {
   certifications: Certification[];
   seo: SeoContent;
 }
-
-export interface ContactSubmission {
-  name: string;
-  email: string;
-  company?: string;
-  message: string;
-  createdAt: string;
-}

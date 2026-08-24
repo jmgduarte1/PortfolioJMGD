@@ -108,10 +108,10 @@ The middleware route is:
 
 ### Development
 
-A local development endpoint may use:
+A local development endpoint uses:
 
 ```text
-http://localhost:3000/api/contact
+http://localhost:8080/api/contact
 ```
 
 The exact development port should match the Email Middleware configuration.
@@ -179,7 +179,9 @@ The contact form submits:
   "name": "Recruiter Name",
   "email": "recruiter@example.com",
   "company": "Company Name",
-  "message": "Opportunity details, including job post link if available."
+  "message": "Opportunity details, including job post link if available.",
+  "turnstileToken": "single-use-widget-token",
+  "website": ""
 }
 ```
 
@@ -202,6 +204,14 @@ Company or organization associated with the inquiry.
 Free-form contact message.
 
 The interface may recommend including relevant opportunity or job-post details in this field.
+
+#### `turnstileToken`
+
+A short-lived token produced by the Cloudflare Turnstile widget. It is verified by the middleware and is not a permanent browser credential.
+
+#### `website`
+
+An intentionally empty honeypot field used as an additional automated-abuse signal.
 
 ---
 
@@ -334,19 +344,17 @@ The Angular frontend should not depend on permissive CORS behavior.
 
 ## Development Phase
 
-During the initial development phase, contact submissions may still be stored through `json-server`.
-
-This is a temporary development implementation.
+Contact submission now uses the Email Middleware in development and production. `json-server` remains the Phase 1 content source but no longer stores contact messages.
 
 Conceptually:
 
 ```text
-Current development flow:
+Current contact flow:
 
 Angular
    |
    v
-json-server
+Email Middleware
 ```
 
 The production architecture is:
@@ -362,7 +370,7 @@ Email Middleware
 Email Provider
 ```
 
-The temporary development implementation must not change the production contact API contract.
+The public API URL and Turnstile site key are loaded from `/app-config.json`. Both values are public. Production deployment may generate this public file from environment-specific values, but it must never contain the Turnstile secret or SMTP credentials.
 
 ---
 

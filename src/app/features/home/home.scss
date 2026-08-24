@@ -270,6 +270,20 @@ mat-chip-set {
   min-height: 1.5rem;
 }
 
+.contact-form__honeypot {
+  height: 1px;
+  left: -10000px;
+  overflow: hidden;
+  position: absolute;
+  width: 1px;
+}
+
+.verification-error {
+  color: #ba1a1a;
+  font-size: 0.875rem;
+  margin: -0.25rem 0 0.5rem;
+}
+
 @media (max-width: 980px) {
   .hero,
   .about,

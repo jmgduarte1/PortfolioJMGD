@@ -3,7 +3,8 @@ import { provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 import { ContentRepository } from '../../data-access/content-repository';
 import { fallbackContent } from '../../data-access/fallback-content';
-import { ContactSubmission, PortfolioContent } from '../../models/portfolio-content';
+import { PortfolioContent } from '../../models/portfolio-content';
+import { ContactRequest, ContactService } from '../../core/contact.service';
 import { Home } from './home';
 
 const testContent: PortfolioContent = {
@@ -31,7 +32,7 @@ const testContent: PortfolioContent = {
 };
 
 describe('Home', () => {
-  let submitContactCalls: ContactSubmission[];
+  let submitContactCalls: ContactRequest[];
 
   beforeEach(async () => {
     submitContactCalls = [];
@@ -44,9 +45,14 @@ describe('Home', () => {
           provide: ContentRepository,
           useValue: {
             getContent: () => of(testContent),
-            submitContact: (submission: ContactSubmission) => {
+          },
+        },
+        {
+          provide: ContactService,
+          useValue: {
+            submit: (submission: ContactRequest) => {
               submitContactCalls.push(submission);
-              return of(submission);
+              return of({ ok: true, message: 'Message sent.' });
             },
           },
         },
@@ -105,7 +111,7 @@ describe('Home', () => {
 
     const component = fixture.componentInstance as unknown as {
       contactForm: {
-        setValue(value: { name: string; email: string; company: string; message: string }): void;
+        setValue(value: ContactRequest): void;
       };
     };
 
@@ -114,6 +120,8 @@ describe('Home', () => {
       email: 'jane@example.com',
       company: 'Example Co',
       message: 'I would like to discuss a senior frontend opportunity with a job post link.',
+      turnstileToken: 'valid-token',
+      website: '',
     });
 
     const form = fixture.nativeElement.querySelector('form') as HTMLFormElement;
@@ -124,7 +132,7 @@ describe('Home', () => {
     expect(submitContactCalls.length).toBe(1);
     expect(submitContactCalls[0].name).toBe('Jane Recruiter');
     expect(submitContactCalls[0].email).toBe('jane@example.com');
-    expect(submitContactCalls[0].createdAt).toBeTruthy();
-    expect((fixture.nativeElement as HTMLElement).textContent).toContain('Message saved locally.');
+    expect(submitContactCalls[0].turnstileToken).toBe('valid-token');
+    expect((fixture.nativeElement as HTMLElement).textContent).toContain('Your message was sent successfully.');
   });
 });

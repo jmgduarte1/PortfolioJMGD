@@ -54,6 +54,10 @@ json-server API:
 http://localhost:3000
 ```
 
+Contact email submission additionally requires EmailMiddleware on `http://localhost:8080`. The public local settings live in `public/app-config.json` and use Cloudflare's documented test site key. Configure EmailMiddleware with the matching test secret for local development; never use the test pair in production.
+
+Production deployment should generate `app-config.json` with `contactApiUrl` and `turnstileSiteKey`. These are public browser values. SMTP and Turnstile secret credentials belong only in the middleware runtime environment.
+
 This is the preferred command for normal local development.
 
 ---

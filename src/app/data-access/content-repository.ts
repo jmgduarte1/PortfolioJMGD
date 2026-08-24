@@ -1,7 +1,6 @@
 import { Observable } from 'rxjs';
 import {
   Certification,
-  ContactSubmission,
   ExperienceItem,
   PortfolioContent,
   Project,
@@ -12,5 +11,4 @@ export abstract class ContentRepository {
   abstract getProjects(): Observable<Project[]>;
   abstract getExperience(): Observable<ExperienceItem[]>;
   abstract getCertifications(): Observable<Certification[]>;
-  abstract submitContact(submission: ContactSubmission): Observable<ContactSubmission>;
 }
