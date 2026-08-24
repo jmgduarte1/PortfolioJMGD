@@ -145,7 +145,34 @@
       </p>
     </div>
 
-    <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="submitContact()" novalidate>
+    <form
+      class="contact-form"
+      #contactFormDirective="ngForm"
+      [formGroup]="contactForm"
+      (ngSubmit)="submitContact(contactFormDirective)"
+      novalidate
+    >
+      @if (submitStatus !== 'idle') {
+        <div
+          class="form-status"
+          [class.form-status--success]="submitStatus === 'success'"
+          [class.form-status--error]="submitStatus === 'error'"
+          [attr.role]="submitStatus === 'error' ? 'alert' : 'status'"
+          aria-live="polite"
+        >
+          <span class="form-status__icon" aria-hidden="true">
+            {{ submitStatus === 'success' ? '✓' : '×' }}
+          </span>
+          <span>
+            @if (submitStatus === 'success') {
+              Your message was sent successfully.
+            } @else {
+              Your message could not be sent. Please complete verification and try again.
+            }
+          </span>
+        </div>
+      }
+
       <div class="contact-form__honeypot" aria-hidden="true">
         <label for="contact-website">Leave this field empty</label>
         <input id="contact-website" formControlName="website" tabindex="-1" autocomplete="off" />
@@ -158,10 +185,6 @@
         }
       </mat-form-field>
 
-      <app-turnstile
-        (tokenChange)="setTurnstileToken($event)"
-        (verificationError)="submitStatus = 'error'"
-      />
       @if (contactForm.controls.turnstileToken.touched && contactForm.controls.turnstileToken.invalid) {
         <p class="verification-error">Please complete the bot verification.</p>
       }
@@ -195,14 +218,10 @@
       <button mat-flat-button color="primary" type="submit" [disabled]="isSubmitting">
         {{ isSubmitting ? 'Sending...' : 'Send Message' }}
       </button>
-
-      <p class="form-status" aria-live="polite">
-        @if (submitStatus === 'success') {
-          Your message was sent successfully.
-        } @else if (submitStatus === 'error') {
-          Your message could not be sent. Please complete verification and try again.
-        }
-      </p>
+      <app-turnstile
+        (tokenChange)="setTurnstileToken($event)"
+        (verificationError)="submitStatus = 'error'"
+      />
     </form>
   </section>
 }

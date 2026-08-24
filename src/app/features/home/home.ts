@@ -1,6 +1,6 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, inject, viewChild } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -52,7 +52,7 @@ export class Home {
     website: [''],
   });
 
-  protected submitContact(): void {
+  protected submitContact(formDirective: FormGroupDirective): void {
     if (this.contactForm.invalid) {
       this.contactForm.markAllAsTouched();
       return;
@@ -67,8 +67,7 @@ export class Home {
       .subscribe({
         next: () => {
           this.submitStatus = 'success';
-          this.contactForm.reset();
-          this.turnstile()?.reset();
+          this.resetContactForm(formDirective);
         },
         error: () => {
           this.submitStatus = 'error';
@@ -79,5 +78,23 @@ export class Home {
 
   protected setTurnstileToken(token: string): void {
     this.contactForm.controls.turnstileToken.setValue(token);
+  }
+
+  private resetContactForm(formDirective: FormGroupDirective): void {
+    const emptyContactForm = {
+      name: '',
+      email: '',
+      company: '',
+      message: '',
+      turnstileToken: '',
+      website: '',
+    };
+
+    this.turnstile()?.reset();
+    formDirective.resetForm(emptyContactForm);
+    this.contactForm.reset(emptyContactForm);
+    this.contactForm.markAsPristine();
+    this.contactForm.markAsUntouched();
+    this.contactForm.updateValueAndValidity();
   }
 }

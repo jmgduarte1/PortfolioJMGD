@@ -45,7 +45,7 @@ export class TurnstileComponent implements AfterViewInit, OnDestroy {
     this.widgetId = window.turnstile.render(this.container().nativeElement, {
       sitekey: this.runtimeConfig.value.turnstileSiteKey,
       action: 'contact',
-      size: 'flexible',
+      size: 'invisible',
       callback: (token: string) => this.tokenChange.emit(token),
       'expired-callback': () => this.tokenChange.emit(''),
       'error-callback': () => { this.tokenChange.emit(''); this.verificationError.emit(); },

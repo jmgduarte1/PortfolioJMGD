@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { FormGroupDirective } from '@angular/forms';
 import { provideRouter } from '@angular/router';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { ContentRepository } from '../../data-access/content-repository';
 import { fallbackContent } from '../../data-access/fallback-content';
 import { PortfolioContent } from '../../models/portfolio-content';
@@ -111,6 +113,16 @@ describe('Home', () => {
 
     const component = fixture.componentInstance as unknown as {
       contactForm: {
+        controls: {
+          name: { touched: boolean };
+          email: { touched: boolean };
+          company: { touched: boolean };
+          message: { touched: boolean };
+          turnstileToken: { touched: boolean };
+          website: { touched: boolean };
+        };
+        getRawValue(): ContactRequest;
+        markAllAsTouched(): void;
         setValue(value: ContactRequest): void;
       };
     };
@@ -134,5 +146,62 @@ describe('Home', () => {
     expect(submitContactCalls[0].email).toBe('jane@example.com');
     expect(submitContactCalls[0].turnstileToken).toBe('valid-token');
     expect((fixture.nativeElement as HTMLElement).textContent).toContain('Your message was sent successfully.');
+
+    expect(component.contactForm.getRawValue()).toEqual({
+      name: '',
+      email: '',
+      company: '',
+      message: '',
+      turnstileToken: '',
+      website: '',
+    });
+    expect(Object.values(component.contactForm.controls).every((control) => !control.touched)).toBe(true);
+    expect(fixture.debugElement.query(By.directive(FormGroupDirective)).injector.get(FormGroupDirective).submitted).toBe(false);
+    expect((fixture.nativeElement as HTMLElement).textContent).not.toContain('Please enter your name.');
+    expect((fixture.nativeElement as HTMLElement).textContent).not.toContain('Please enter a valid email address.');
+    expect((fixture.nativeElement as HTMLElement).textContent).not.toContain('Please include at least 20 characters.');
+  });
+
+  it('should show error feedback above the contact fields when submission fails', async () => {
+    TestBed.overrideProvider(ContactService, {
+      useValue: {
+        submit: (submission: ContactRequest) => {
+          submitContactCalls.push(submission);
+          return throwError(() => new Error('Submission failed.'));
+        },
+      },
+    });
+
+    const fixture = TestBed.createComponent(Home);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const component = fixture.componentInstance as unknown as {
+      contactForm: {
+        setValue(value: ContactRequest): void;
+      };
+    };
+
+    component.contactForm.setValue({
+      name: 'Jane Recruiter',
+      email: 'jane@example.com',
+      company: 'Example Co',
+      message: 'I would like to discuss a senior frontend opportunity with a job post link.',
+      turnstileToken: 'valid-token',
+      website: '',
+    });
+
+    const form = fixture.nativeElement.querySelector('form') as HTMLFormElement;
+    form.dispatchEvent(new Event('submit'));
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    const status = compiled.querySelector('.form-status') as HTMLElement;
+    const firstField = compiled.querySelector('mat-form-field') as HTMLElement;
+
+    expect(status.textContent).toContain('Your message could not be sent.');
+    expect(status.classList).toContain('form-status--error');
+    expect(status.compareDocumentPosition(firstField) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 });
