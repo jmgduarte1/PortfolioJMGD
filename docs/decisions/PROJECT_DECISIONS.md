@@ -459,6 +459,30 @@ The public browser cannot safely hold a shared authentication credential. A publ
 
 ---
 
+## PD-023 — Build-Time Public Renderer Configuration
+
+**Status:** Accepted
+
+The headless renderer's backend URL and default locale are configured through
+`BACKEND_URL` and `DEFAULT_LOCALE`. A Node script generates a TypeScript module
+before npm start/build/watch/test/ng commands; `app.config.ts` imports it for
+both browser and SSR builds.
+
+### Rationale
+
+Local `.env` configuration avoids hardcoded deployment settings while keeping
+Node environment access outside browser code and avoiding new dependencies.
+
+### Consequences
+
+- Process environment overrides `.env`, with `.env.example` providing defaults.
+- Only explicitly selected public values enter the generated module.
+- Local and generated files are excluded from version control.
+- Changes require restarting development commands or rebuilding deployment output.
+- The contact runtime configuration defined in PD-022 remains separate.
+
+---
+
 ## Decision Maintenance
 
 Record a new decision when it materially affects:

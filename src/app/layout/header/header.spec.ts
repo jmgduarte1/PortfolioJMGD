@@ -1,20 +1,43 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { NavigationSchema, NavigationService } from '@headless-angular/renderer';
 import { of } from 'rxjs';
-import { ContentRepository } from '../../data-access/content-repository';
-import { fallbackContent } from '../../data-access/fallback-content';
 import { Header } from './header';
 
 describe('Header', () => {
+  const primaryMenu: NavigationSchema = {
+    schemaVersion: '1.0',
+    location: 'primary',
+    menu: {
+      ariaLabel: 'Primary navigation',
+      orientation: 'horizontal',
+    },
+    items: [
+      {
+        id: 'home',
+        label: 'Home',
+        link: { type: 'internal', path: '/home' },
+      },
+      {
+        id: 'projects',
+        label: 'Projects',
+        link: { type: 'internal', path: '/projects' },
+      },
+    ],
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Header],
       providers: [
-        provideRouter([]),
+        provideRouter([
+          { path: '', children: [] },
+          { path: 'projects', children: [] },
+        ]),
         {
-          provide: ContentRepository,
+          provide: NavigationService,
           useValue: {
-            getContent: () => of(fallbackContent),
+            getMenu: () => of(primaryMenu),
           },
         },
       ],
@@ -29,7 +52,7 @@ describe('Header', () => {
 
     const compiled = fixture.nativeElement as HTMLElement;
 
-    expect(compiled.querySelector('.brand')?.textContent).toContain(fallbackContent.profile.name);
+    expect(compiled.querySelector('.brand')?.textContent).toContain('Juan Manuel Gomez');
     expect(compiled.querySelector('.brand__logo img')?.getAttribute('src')).toBe('/assets/logo-square.png');
     expect(compiled.querySelector('nav')?.getAttribute('aria-label')).toBe('Primary navigation');
     expect(compiled.querySelector('nav')?.textContent).toContain('Projects');

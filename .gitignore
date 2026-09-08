@@ -1,6 +1,10 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
 # Compiled output
+/src/app/core/app-environment.generated.ts
+.env
+.env.*
+!.env.example
 /dist
 /tmp
 /out-tsc

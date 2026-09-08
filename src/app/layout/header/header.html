@@ -1,18 +1,30 @@
 <header class="site-header">
-  @if (content$ | async; as content) {
-    <div class="site-header__inner">
+  <div class="site-header__inner">
     <a class="brand" routerLink="/" aria-label="Juan Manuel Gomez Duarte home">
       <span class="brand__logo" aria-hidden="true">
         <img src="/assets/logo-square.png" alt="" width="64" height="64" />
       </span>
-      <span class="brand__text">{{ content.profile.name }}</span>
+      <span class="brand__text">Juan Manuel Gomez</span>
     </a>
 
-    <nav class="primary-nav" aria-label="Primary navigation">
-      @for (item of content.navigation; track item.href) {
-        <a [href]="item.href">{{ item.label }}</a>
+    @if (menuState$ | async; as menuState) {
+      @if (menuState.status === 'loading') {
+        <app-loader class="header-loader" [loadingMessage]="'Loading navigation...'" [compact]="true" />
+      } @else if (menuState.status === 'loaded') {
+        <nav class="primary-nav" [attr.aria-label]="menuState.ariaLabel">
+          @for (item of menuState.items; track item.id) {
+            <a
+              [href]="item.href"
+              [attr.rel]="item.rel"
+              [attr.target]="item.target"
+              (click)="navigate($event, item.link)"
+            >
+              {{ item.label }}
+            </a>
+          }
+        </nav>
       }
-    </nav>
+    }
 
     <button
       class="menu-toggle"
@@ -36,7 +48,12 @@
       (click)="closeMobileMenu()"
     ></button>
 
-    <nav id="mobile-navigation" class="mobile-nav" aria-label="Mobile navigation">
+    @if (menuState$ | async; as menuState) {
+      <nav
+        id="mobile-navigation"
+        class="mobile-nav"
+        [attr.aria-label]="menuState.status === 'loaded' ? menuState.ariaLabel : 'Mobile navigation'"
+      >
       <div class="mobile-nav__header">
         <span>Menu</span>
         <button class="mobile-nav__close" type="button" aria-label="Close navigation menu" (click)="closeMobileMenu()">
@@ -46,11 +63,24 @@
       </div>
 
       <div class="mobile-nav__links">
-        @for (item of content.navigation; track item.href) {
-          <a [href]="item.href" (click)="closeMobileMenu()">{{ item.label }}</a>
+        @if (menuState.status === 'loading') {
+          <app-loader [loadingMessage]="'Loading navigation...'" [compact]="true" />
+        } @else if (menuState.status === 'loaded') {
+          @for (item of menuState.items; track item.id) {
+            <a
+              [href]="item.href"
+              [attr.rel]="item.rel"
+              [attr.target]="item.target"
+              (click)="navigate($event, item.link)"
+            >
+              {{ item.label }}
+            </a>
+          }
+        } @else {
+          <p class="mobile-nav__error">Navigation is unavailable.</p>
         }
       </div>
-    </nav>
-  }
+      </nav>
+    }
   }
 </header>

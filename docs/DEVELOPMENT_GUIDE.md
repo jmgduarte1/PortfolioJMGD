@@ -36,6 +36,35 @@ npm install
 
 ## Run the Application
 
+### Local renderer configuration
+
+Copy `.env.example` to `.env` in the repository root and edit:
+
+```dotenv
+BACKEND_URL=http://localhost
+DEFAULT_LOCALE=en-CA
+```
+
+`BACKEND_URL` sets the headless renderer's backend URL; `DEFAULT_LOCALE` sets
+its default language tag. These settings do not change the separate json-server
+API or contact configuration in `public/app-config.json`.
+
+The npm start, build, watch, test, and ng scripts generate
+`src/app/core/app-environment.generated.ts`, which `app.config.ts` imports.
+`npm run dev` also generates it through `npm start`. Restart the command after
+editing `.env`. When invoking Angular CLI directly, run `npm run config:generate`
+first.
+
+Precedence is process environment, `.env`, then `.env.example` defaults, so a
+fresh checkout also works without a local `.env`. CI can supply `BACKEND_URL`
+and `DEFAULT_LOCALE` before `npm run build`. Changing deployed values requires
+a rebuild; the SSR and browser bundles share the generated configuration.
+
+Both `.env` and the generated file are ignored by Git. Only the two named public
+settings are exported. They are visible in the browser bundle and must not hold
+secrets. No additional dependency is required; generation uses Node's built-in
+dotenv parser (Node 20.19+ or a newer Angular-supported version).
+
 ### Angular and json-server Together
 
 The recommended local development command is:

@@ -1,0 +1,34 @@
+@if (pageState$ | async; as state) {
+  @if (state.status === 'loading') {
+    <app-loader [loadingMessage]="'Loading Page...'" />
+  } @else if (state.status === 'loaded') {
+    <headless-page-renderer [schema]="state.schema" />
+  } @else {
+    <main class="demo-error" role="alert">
+      <h1>Headless renderer demo</h1>
+      <p>Could not load PageSchema for the WordPress page slug <strong>{{ state.slug }}</strong>.</p>
+      <dl class="demo-error__details">
+        <div>
+          <dt>Error</dt>
+          <dd>{{ state.error.name }}</dd>
+        </div>
+        <div>
+          <dt>Message</dt>
+          <dd>{{ state.error.message }}</dd>
+        </div>
+        @if (state.error.code) {
+          <div>
+            <dt>Code</dt>
+            <dd>{{ state.error.code }}</dd>
+          </div>
+        }
+      </dl>
+      @if (state.error.issues) {
+        <pre class="demo-error__debug">{{ state.error.issues | json }}</pre>
+      }
+      @if (state.error.cause) {
+        <pre class="demo-error__debug">{{ state.error.cause | json }}</pre>
+      }
+    </main>
+  }
+}
