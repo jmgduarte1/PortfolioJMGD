@@ -187,6 +187,11 @@ npm run build
 
 ## Build
 
+For branch-based GitHub Actions deployments to Hostinger, see
+[CI/CD and Hostinger setup](HOSTINGER_DEPLOYMENT.md). It covers `staging` and
+`produccion`, GitHub Environment variables/secrets, SSH prerequisites, and the
+current static-hosting scope.
+
 Create a production build with:
 
 ```bash

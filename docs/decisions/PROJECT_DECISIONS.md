@@ -483,6 +483,34 @@ Node environment access outside browser code and avoiding new dependencies.
 
 ---
 
+## PD-024 — Environment-Specific CI/CD for Hostinger Static Hosting
+
+**Status:** Accepted (requires a Web/Cloud hosting target with SSH/rsync)
+
+GitHub Actions validates pull requests and pushes to `staging` and `produccion`.
+After tests and the normal production browser/server build pass, pushes deploy
+using the matching GitHub Environment (`Staging` or `Produccion`).
+
+### Rationale
+
+The current implementation uses `RenderMode.Client` for all routes, despite
+retaining SSR build infrastructure. A separate static output can serve those
+routes on Hostinger Web/Cloud without introducing a Node server on the host.
+
+### Consequences
+
+- PD-009's SSR infrastructure remains; the normal server build stays a CI gate.
+- This deployment target serves CSR, not request-time SSR. Future server-rendered
+  routes require a Node-capable deployment workflow and a review of this decision.
+- Environment variables configure renderer and public contact settings. Credentials
+  stay in GitHub Secrets and are only exposed to the steps that need them.
+- SSH host keys are verified and uploads require a marked frontend-only directory.
+- Builds and budget failures block deployment; transfers preserve old assets.
+- Hosting plan, DNS, target paths, credentials and CORS must be configured as
+  described in `docs/HOSTINGER_DEPLOYMENT.md` before the first deployment.
+
+---
+
 ## Decision Maintenance
 
 Record a new decision when it materially affects:

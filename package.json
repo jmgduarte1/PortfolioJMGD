@@ -15,6 +15,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test:deployment": "node --test scripts/prepare-hostinger.test.mjs",
     "serve:ssr:portfolio-jmgd": "node dist/portfolio-jmgd/server/server.mjs"
   },
   "private": true,
