@@ -1,26 +1,18 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import {
   LinkModel,
   NavigationItem,
+  NavigationRendererComponent,
   NavigationService,
 } from '@headless-angular/renderer';
 import { catchError, map, of, shareReplay, startWith } from 'rxjs';
 import { Loader } from '../../loader/loader';
 
-interface HeaderNavigationItem {
-  id: string;
-  label: string;
-  href: string;
-  rel: string | null;
-  target: string | null;
-  link: LinkModel;
-}
-
 type NavigationState =
   | { status: 'loading' }
-  | { status: 'loaded'; ariaLabel: string; items: HeaderNavigationItem[] }
+  | { status: 'loaded'; ariaLabel: string; items: NavigationItem[] }
   | { status: 'error'; error: NavigationError };
 
 interface NavigationError {
@@ -33,7 +25,7 @@ interface NavigationError {
 
 @Component({
   selector: 'app-header',
-  imports: [AsyncPipe, RouterLink, Loader],
+  imports: [AsyncPipe, RouterLink, Loader, NavigationRendererComponent],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
@@ -89,6 +81,16 @@ export class Header {
   }
 
   onLinkSelected(link: LinkModel): void {
+    if (link.type === 'anchor') {
+      const currentPath = this.router.url.split(/[?#]/, 1)[0].replace(/\/+$/g, '');
+
+      if (currentPath !== '') {
+        void this.router.navigateByUrl(`/#${link.anchor}`);
+      }
+
+      return;
+    }
+
     if (link.type !== 'internal') {
       return;
     }
@@ -98,79 +100,47 @@ export class Header {
     void this.router.navigateByUrl(normalizedPath);
   }
 
-  protected navigate(event: MouseEvent, link: LinkModel): void {
-    if (link.type !== 'internal') {
-      this.closeMobileMenu();
-      return;
-    }
-
-    event.preventDefault();
-    this.onLinkSelected(link);
-    this.closeMobileMenu();
-  }
-
-  protected isMobileMenuOpen = false;
-
-  protected toggleMobileMenu(): void {
-    this.isMobileMenuOpen = !this.isMobileMenuOpen;
-  }
-
-  protected closeMobileMenu(): void {
-    this.isMobileMenuOpen = false;
-  }
-
-  @HostListener('window:keydown.escape')
-  protected closeMobileMenuOnEscape(): void {
-    this.closeMobileMenu();
-  }
-
-  private toHeaderNavigationItem(item: NavigationItem): HeaderNavigationItem {
+  private toHeaderNavigationItem(item: NavigationItem): NavigationItem {
     return {
       id: item.id,
       label: item.label,
-      href: this.href(item.link),
-      rel: this.rel(item.link),
-      target: this.target(item.link),
-      link: item.link,
+      link: this.toHeaderLink(item.link),
+      ...(item.children
+        ? { children: item.children.map((child) => this.toHeaderNavigationItem(child)) }
+        : {}),
     };
   }
 
-  private href(link: LinkModel): string {
-    switch (link.type) {
-      case 'internal':
-        return this.normalizeInternalPath(link.path);
-      case 'external':
-        return link.url;
-      case 'anchor':
-        return `#${link.anchor}`;
-      case 'email':
-        return `mailto:${link.address}`;
-      case 'telephone':
-        return `tel:${link.number}`;
-    }
-  }
-
-  private rel(link: LinkModel): string | null {
-    if (link.type !== 'external') {
-      return null;
+  private toHeaderLink(link: LinkModel): LinkModel {
+    if (link.type === 'internal') {
+      return { ...link, path: this.normalizeInternalPath(link.path) };
     }
 
-    const rel = new Set(link.rel ?? []);
-
-    if (link.target === '_blank') {
-      rel.add('noopener');
-      rel.add('noreferrer');
+    if (link.type !== 'external' || link.target !== '_blank') {
+      return link;
     }
 
-    return rel.size > 0 ? [...rel].join(' ') : null;
-  }
-
-  private target(link: LinkModel): string | null {
-    return link.type === 'external' ? (link.target ?? null) : null;
+    return {
+      ...link,
+      rel: [...new Set([...(link.rel ?? []), 'noopener', 'noreferrer'])],
+    };
   }
 
   private normalizeInternalPath(path: string): string {
-    const normalized = path.trim().replace(/\/+$/g, '');
+    const trimmed = path.trim();
+
+    // Some WordPress menu configurations return an absolute site URL even
+    // though the item is classified as an internal link.
+    if (/^https?:\/\//i.test(trimmed)) {
+      try {
+        const url = new URL(trimmed);
+        return this.normalizeInternalPath(`${url.pathname}${url.search}${url.hash}`);
+      } catch {
+        // Fall through to the regular path normalization for malformed data.
+      }
+    }
+
+    const normalized = trimmed.replace(/\/+$/g, '');
     const slug = normalized.replace(/^\/+/g, '');
 
     if (slug === '' || slug === 'home') {

@@ -58,69 +58,50 @@ describe('Header', () => {
     expect(compiled.querySelector('nav')?.textContent).toContain('Projects');
   });
 
-  it('should open the mobile navigation from the hamburger button', async () => {
+  it('should let the renderer open its mobile navigation', async () => {
     const fixture = TestBed.createComponent(Header);
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
-    const toggle = compiled.querySelector('.menu-toggle') as HTMLButtonElement;
+    const toggle = compiled.querySelector('.navigation__toggle') as HTMLButtonElement;
 
     toggle.click();
     fixture.detectChanges();
 
     expect(toggle.getAttribute('aria-expanded')).toBe('true');
-    expect(compiled.querySelector('#mobile-navigation')?.textContent).toContain('Projects');
-    expect(compiled.querySelector('.mobile-nav__close')).toBeTruthy();
+    expect(compiled.querySelector('.navigation__mobile-panel--open')?.textContent).toContain('Projects');
   });
 
-  it('should close the mobile navigation from the close button', async () => {
+  it('should let the renderer close its mobile navigation', async () => {
     const fixture = TestBed.createComponent(Header);
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
-    (compiled.querySelector('.menu-toggle') as HTMLButtonElement).click();
+    const toggle = compiled.querySelector('.navigation__toggle') as HTMLButtonElement;
+    toggle.click();
     fixture.detectChanges();
 
-    (compiled.querySelector('.mobile-nav__close') as HTMLButtonElement).click();
+    toggle.click();
     fixture.detectChanges();
 
-    expect(compiled.querySelector('#mobile-navigation')).toBeNull();
-    expect(compiled.querySelector('.menu-toggle')?.getAttribute('aria-expanded')).toBe('false');
+    expect(toggle.getAttribute('aria-expanded')).toBe('false');
   });
 
-  it('should close the mobile navigation when the backdrop is clicked', async () => {
+  it('should render the mobile navigation links from the renderer', async () => {
     const fixture = TestBed.createComponent(Header);
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
-    (compiled.querySelector('.menu-toggle') as HTMLButtonElement).click();
-    fixture.detectChanges();
+    const mobileLinkLabels = [...compiled.querySelectorAll('.navigation__list--mobile a')].map(
+      (link) => link.textContent?.trim(),
+    );
 
-    (compiled.querySelector('.mobile-menu__backdrop') as HTMLButtonElement).click();
-    fixture.detectChanges();
-
-    expect(compiled.querySelector('#mobile-navigation')).toBeNull();
-  });
-
-  it('should close the mobile navigation when a mobile link is clicked', async () => {
-    const fixture = TestBed.createComponent(Header);
-    fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
-
-    const compiled = fixture.nativeElement as HTMLElement;
-    (compiled.querySelector('.menu-toggle') as HTMLButtonElement).click();
-    fixture.detectChanges();
-
-    (compiled.querySelector('.mobile-nav__links a') as HTMLAnchorElement).click();
-    fixture.detectChanges();
-
-    expect(compiled.querySelector('#mobile-navigation')).toBeNull();
+    expect(mobileLinkLabels).toContain('Projects');
   });
 });
