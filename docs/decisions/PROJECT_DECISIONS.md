@@ -554,6 +554,8 @@ removes the custom SSH/rsync transfer and its credentials.
 - A `postbuild` script copies the committed bootstrap into the output directory;
   it listens immediately and delegates requests to Angular's generated SSR
   handler at `./server/server.mjs`.
+- The generated Angular server bundle exports its request handler without its
+  own main-module detection or a second listening socket.
 - The production `npm start` command launches the same output entry used by
   Hostinger; local development uses `npm run dev`.
 - The Express server uses Hostinger's `PORT` and defaults to port 3000.

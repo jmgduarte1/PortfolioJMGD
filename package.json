@@ -15,7 +15,7 @@
     "postbuild": "node scripts/prepare-hostinger-output.mjs",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:portfolio-jmgd": "node dist/portfolio-jmgd/server/server.mjs"
+    "serve:ssr:portfolio-jmgd": "node dist/portfolio-jmgd/server.js"
   },
   "private": true,
   "packageManager": "npm@11.6.2",

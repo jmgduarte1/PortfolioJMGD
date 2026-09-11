@@ -51,6 +51,8 @@ file. Después de `ng build`, el script `postbuild` copia `server.js` a
 `dist/portfolio-jmgd`. Hostinger publica el contenido completo de ese directorio:
 el entry abre el puerto inmediatamente y delega las solicitudes a
 `./server/server.mjs`, junto a los archivos estáticos de `./browser`.
+El bundle generado por Angular exporta el handler SSR y no abre un segundo
+servidor; el único `listen()` pertenece al entry `server.js`.
 
 La dependencia pública `@jmgduarte/wp-angular-renderer` se instala desde npm para que Hostinger
 pueda instalarla sin una clave SSH adicional.
