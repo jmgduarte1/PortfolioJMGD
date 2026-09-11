@@ -38,15 +38,17 @@ estas opciones en ambas aplicaciones:
 | Versión de Node.js | 22 o 24 |
 | Directorio raíz | Raíz del repositorio |
 | Package manager | npm |
-| Archivo de entrada | `dist/portfolio-jmgd/server/server.mjs` |
+| Archivo de entrada | `server.js` |
 | Despliegue automático | Activado |
 
 Todas las rutas usan `RenderMode.Server`. Hostinger debe mantener un proceso
 Node.js activo y dirigir las solicitudes al archivo de entrada. El servidor usa
 el `PORT` entregado por la plataforma y, si no existe, escucha en el puerto 3000.
 Con el preset Express, hPanel ejecuta el script `build` de `package.json` y solo
-solicita el entry file. Esa ruta se escribe desde la raíz del repositorio, por
-eso debe incluir `dist/portfolio-jmgd` y terminar en `.mjs`.
+solicita el entry file. `server.js` existe en la raíz del repositorio y, después
+del build, carga explícitamente `dist/portfolio-jmgd/server/server.mjs`. Esto
+evita depender de que hPanel use directamente un archivo generado dentro de
+`dist`.
 
 La dependencia pública `@jmgduarte/wp-angular-renderer` se instala desde npm para que Hostinger
 pueda instalarla sin una clave SSH adicional.

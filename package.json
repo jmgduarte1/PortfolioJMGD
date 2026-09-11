@@ -9,7 +9,7 @@
     "pretest": "npm run config:generate",
     "preng": "npm run config:generate",
     "ng": "ng",
-    "start": "node dist/portfolio-jmgd/server/server.mjs",
+    "start": "node server.js",
     "dev": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",

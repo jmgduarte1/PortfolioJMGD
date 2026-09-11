@@ -11,6 +11,7 @@ const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
+let serverStarted = false;
 
 /**
  * Example Express Rest API endpoints can be defined here.
@@ -45,19 +46,29 @@ app.use((req, res, next) => {
     .catch(next);
 });
 
-/**
- * Start the server if this module is the main entry point, or it is ran via PM2.
- * The server listens on the port defined by the `PORT` environment variable, or defaults to 3000.
- */
-if (isMainModule(import.meta.url) || process.env['pm_id']) {
+export function startServer(): void {
+  if (serverStarted) {
+    return;
+  }
+
+  serverStarted = true;
   const port = process.env['PORT'] || 3000;
   app.listen(port, (error) => {
     if (error) {
+      serverStarted = false;
       throw error;
     }
 
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
+}
+
+/**
+ * Start the server if this module is the main entry point, or it is ran via PM2.
+ * The server listens on the port defined by the `PORT` environment variable, or defaults to 3000.
+ */
+if (isMainModule(import.meta.url) || process.env['pm_id']) {
+  startServer();
 }
 
 /**
