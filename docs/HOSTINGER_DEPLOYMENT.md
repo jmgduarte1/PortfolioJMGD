@@ -34,22 +34,23 @@ estas opciones en ambas aplicaciones:
 
 | Opción | Valor |
 | --- | --- |
-| Framework | Express.js |
+| Framework | Other |
 | Versión de Node.js | 22 o 24 |
 | Directorio raíz | Raíz del repositorio |
 | Package manager | npm |
+| Directorio de salida | `dist/portfolio-jmgd` |
 | Archivo de entrada | `server.js` |
 | Despliegue automático | Activado |
 
 Todas las rutas usan `RenderMode.Server`. Hostinger debe mantener un proceso
 Node.js activo y dirigir las solicitudes al archivo de entrada. El servidor usa
 el `PORT` entregado por la plataforma y, si no existe, escucha en el puerto 3000.
-Con el preset Express, hPanel ejecuta el script `build` de `package.json` y solo
-solicita el entry file. `server.js` existe en la raíz del repositorio, abre el
-puerto inmediatamente y delega las solicitudes al handler SSR generado en
-`dist/portfolio-jmgd/server/server.mjs`. El bundle se carga al recibir la primera
-solicitud, después de que el build esté disponible. Esto también permite que la
-validación de Hostinger detecte la llamada a `listen()` en el propio entry file.
+
+El preset `Other` permite declarar tanto el directorio de salida como el entry
+file. Después de `ng build`, el script `postbuild` copia `server.js` a
+`dist/portfolio-jmgd`. Hostinger publica el contenido completo de ese directorio:
+el entry abre el puerto inmediatamente y delega las solicitudes a
+`./server/server.mjs`, junto a los archivos estáticos de `./browser`.
 
 La dependencia pública `@jmgduarte/wp-angular-renderer` se instala desde npm para que Hostinger
 pueda instalarla sin una clave SSH adicional.

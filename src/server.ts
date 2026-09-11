@@ -47,7 +47,7 @@ app.use((req, res, next) => {
 
 /**
  * Start the server when the generated bundle is executed directly.
- * The root server.js used by Hostinger imports reqHandler instead.
+ * The server.js included in Hostinger's build output imports reqHandler instead.
  */
 if (isMainModule(import.meta.url)) {
   const port = process.env['PORT'] || 3000;

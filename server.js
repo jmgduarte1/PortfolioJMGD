@@ -1,13 +1,18 @@
 'use strict';
 
 const express = require('express');
+const { existsSync } = require('node:fs');
+const { join } = require('node:path');
 
 const app = express();
 const port = process.env.PORT || 3000;
+const bundledServerPath = existsSync(join(__dirname, 'server', 'server.mjs'))
+  ? './server/server.mjs'
+  : './dist/portfolio-jmgd/server/server.mjs';
 let angularHandlerPromise;
 
 function getAngularHandler() {
-  angularHandlerPromise ??= import('./dist/portfolio-jmgd/server/server.mjs')
+  angularHandlerPromise ??= import(bundledServerPath)
     .then(({ reqHandler }) => reqHandler)
     .catch((error) => {
       angularHandlerPromise = undefined;

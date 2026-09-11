@@ -9,9 +9,10 @@
     "pretest": "npm run config:generate",
     "preng": "npm run config:generate",
     "ng": "ng",
-    "start": "node server.js",
+    "start": "node dist/portfolio-jmgd/server.js",
     "dev": "ng serve",
     "build": "ng build",
+    "postbuild": "node scripts/prepare-hostinger-output.mjs",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:portfolio-jmgd": "node dist/portfolio-jmgd/server/server.mjs"
