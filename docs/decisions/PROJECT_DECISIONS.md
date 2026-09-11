@@ -528,7 +528,7 @@ local contact/Turnstile services, and runtime contact configuration were removed
 
 ---
 
-## PD-026 — Hostinger Managed Angular Web Apps
+## PD-026 — Hostinger Managed Angular SSR Web Apps
 
 **Status:** Accepted
 
@@ -539,18 +539,21 @@ continues to validate pull requests and pushes.
 
 ### Rationale
 
-The managed Web App supports Angular builds and keeps each environment's public
-build configuration in Hostinger. Current routes use `RenderMode.Client`, so
-Hostinger publishes the browser output. This removes the custom SSH/rsync
-transfer and its credentials.
+The managed Web App supports the Angular browser and server build and keeps each
+environment's public build configuration in Hostinger. Public routes use
+`RenderMode.Server`, and Hostinger runs the generated Express entry point. This
+removes the custom SSH/rsync transfer and its credentials.
 
 ### Consequences
 
 - `BACKEND_URL` and `DEFAULT_LOCALE` are defined separately in each Hostinger
   Web App and require a rebuild when changed.
 - The renderer dependency uses a public HTTPS Git URL so Hostinger can install it.
-- Hostinger publishes `dist/portfolio-jmgd/browser`; no entry file or server
-  port is required for the current route configuration.
+- Hostinger uses `dist/portfolio-jmgd` as the output directory and
+  `server/server.mjs` as its entry file.
+- The Express server uses Hostinger's `PORT` and defaults to port 3000.
+- Each Web App supplies an explicit `NG_ALLOWED_HOSTS` value and trusts the
+  forwarding headers added by Hostinger's managed reverse proxy.
 - GitHub branch protection must require CI before changes are merged because
   Hostinger's automatic deployment is triggered independently by the push.
 - SSH deployment scripts, static-hosting preparation, and GitHub deployment

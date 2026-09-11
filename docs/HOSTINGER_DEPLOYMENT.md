@@ -28,20 +28,23 @@ Web App** y conectar el mismo repositorio:
 | Staging | `staging` | Subdominio de pruebas |
 | Producción | `produccion` | Dominio público |
 
-Hostinger incluye Angular entre sus Web Apps soportadas. Usar estas opciones en
-ambas aplicaciones:
+La aplicación usa Angular SSR sobre Express. Para que Hostinger ejecute el
+servidor generado en lugar de tratar el proyecto como un frontend estático, usar
+estas opciones en ambas aplicaciones:
 
 | Opción | Valor |
 | --- | --- |
-| Framework | Angular |
+| Framework | Other |
 | Versión de Node.js | 24 |
 | Directorio raíz | Raíz del repositorio |
 | Comando de build | `npm run build` |
-| Directorio de salida | `dist/portfolio-jmgd/browser` |
+| Directorio de salida | `dist/portfolio-jmgd` |
+| Archivo de entrada | `server/server.mjs` |
 | Despliegue automático | Activado |
 
-No se configura archivo de entrada ni `PORT`: las rutas actuales usan
-`RenderMode.Client` y Hostinger publica el resultado Angular como frontend.
+Todas las rutas usan `RenderMode.Server`. Hostinger debe mantener un proceso
+Node.js activo y dirigir las solicitudes al archivo de entrada. El servidor usa
+el `PORT` entregado por la plataforma y, si no existe, escucha en el puerto 3000.
 
 La dependencia pública `@jmgduarte/wp-angular-renderer` se instala desde npm para que Hostinger
 pueda instalarla sin una clave SSH adicional.
@@ -54,14 +57,26 @@ En cada Web App, abrir **Environment variables** y crear:
 | --- | --- | --- |
 | `BACKEND_URL` | `https://cms-staging.example.com` | `https://cms.example.com` |
 | `DEFAULT_LOCALE` | `en-CA` | `en-CA` |
+| `NG_ALLOWED_HOSTS` | Dominio exacto de staging | `juanmanuelgomez.org,www.juanmanuelgomez.org` |
+| `NG_TRUST_PROXY_HEADERS` | Ver valor debajo | Ver valor debajo |
 
 `BACKEND_URL` debe ser una URL HTTP/HTTPS absoluta, sin usuario ni contraseña.
 `DEFAULT_LOCALE` debe ser una etiqueta de idioma válida, como `en-CA`, `es-ES`
 o `fr-CA`.
 
-Estas variables son configuración pública del frontend: el build las incluye en
-los archivos que descarga el navegador. No guardar contraseñas, tokens ni claves
-privadas en ellas.
+Usar este valor para `NG_TRUST_PROXY_HEADERS` en ambas aplicaciones:
+
+```text
+forwarded,x-forwarded-for,x-forwarded-host,x-forwarded-port,x-forwarded-proto,x-forwarded-prefix
+```
+
+`NG_ALLOWED_HOSTS` evita que Angular rechace el dominio durante SSR. No usar `*`.
+Los proxy headers se confían porque la aplicación se ejecuta detrás del proxy
+administrado de Hostinger.
+
+`BACKEND_URL` y `DEFAULT_LOCALE` son configuración pública del frontend: el build
+las incluye en los archivos que descarga el navegador. No guardar contraseñas,
+tokens ni claves privadas en ellas.
 
 Después de modificar un valor, aplicar los cambios y ejecutar un nuevo deploy.
 La aplicación debe reconstruirse porque Angular incorpora ambos valores durante
@@ -90,9 +105,10 @@ tiene conectada.
 5. Repetir la configuración con la Web App de producción y la rama
    `produccion`.
 
-Si el build falla, revisar los logs de build de Hostinger y confirmar el
-directorio de salida. También se deben autorizar ambos dominios en CORS del
-backend WordPress.
+Si el build falla, revisar los logs de build de Hostinger. Si compila pero no
+abre, revisar los runtime logs y confirmar el directorio de salida, el archivo
+de entrada y el puerto. También se deben autorizar ambos dominios y el servidor
+de Hostinger en la configuración de acceso del backend WordPress.
 
 ## Datos necesarios del hosting
 
