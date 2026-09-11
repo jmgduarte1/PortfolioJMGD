@@ -550,7 +550,8 @@ removes the custom SSH/rsync transfer and its credentials.
   Web App and require a rebuild when changed.
 - The renderer dependency uses a public HTTPS Git URL so Hostinger can install it.
 - The Hostinger Express preset uses the committed root `server.js` entry file,
-  which starts the generated Angular SSR server after the build.
+  which listens immediately and delegates requests to the generated Angular SSR
+  request handler after the build.
 - The production `npm start` command launches `server.js`; local development
   uses `npm run dev`.
 - The Express server uses Hostinger's `PORT` and defaults to port 3000.
