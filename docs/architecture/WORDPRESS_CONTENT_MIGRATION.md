@@ -2,9 +2,7 @@
 
 ## Purpose
 
-Phase 1 of the portfolio uses `json-server` as the content API.
-
-A future phase will replace `json-server` with WordPress while preserving the Angular application's existing component and domain architecture.
+The portfolio uses the WordPress headless renderer as its content API.
 
 The migration should primarily affect the data-access layer rather than presentation components.
 

@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, HostListener, inject, output } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import {
   LinkModel,
@@ -40,7 +40,6 @@ interface NavigationError {
 export class Header {
   private readonly router = inject(Router);
   private readonly navigationService = inject(NavigationService);
-  readonly slugObtained = output<string>();
 
   readonly menuState$ = this.navigationService.getMenu('primary').pipe(
     map((schema): NavigationState => ({
@@ -95,9 +94,7 @@ export class Header {
     }
 
     const normalizedPath = this.normalizeInternalPath(link.path);
-    const slug = normalizedPath.split('/').filter(Boolean).pop() ?? 'home';
 
-    this.slugObtained.emit(slug);
     void this.router.navigateByUrl(normalizedPath);
   }
 

@@ -513,6 +513,23 @@ routes on Hostinger Web/Cloud without introducing a Node server on the host.
 
 ## Decision Maintenance
 
+## PD-025 — WordPress Renderer Replaces the Local Phase 1 Stack
+
+**Status:** Accepted
+
+The active Angular application uses the headless WordPress renderer directly.
+The unused local `json-server` content stack, legacy portfolio page components,
+local contact/Turnstile services, and runtime contact configuration were removed.
+
+### Consequences
+
+- Local development starts Angular only; content comes from the configured WordPress backend.
+- The renderer owns page and navigation contracts.
+- Contact delivery configuration is managed by the renderer/backend integration.
+- The old `ContentRepository` and `json-server` migration path is historical documentation only.
+
+---
+
 Record a new decision when it materially affects:
 
 - Architecture

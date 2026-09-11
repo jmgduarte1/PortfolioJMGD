@@ -7,7 +7,7 @@ This document describes how to install, run, build, test, and work with the Pers
 The project consists of:
 
 * An Angular frontend.
-* A local `json-server` content API used during Phase 1.
+* A configured WordPress headless content backend.
 * Angular SSR/prerendering for production builds.
 
 ---
@@ -46,8 +46,7 @@ DEFAULT_LOCALE=en-CA
 ```
 
 `BACKEND_URL` sets the headless renderer's backend URL; `DEFAULT_LOCALE` sets
-its default language tag. These settings do not change the separate json-server
-API or contact configuration in `public/app-config.json`.
+its default language tag.
 
 The npm start, build, watch, test, and ng scripts generate
 `src/app/core/app-environment.generated.ts`, which `app.config.ts` imports.
@@ -65,7 +64,7 @@ settings are exported. They are visible in the browser bundle and must not hold
 secrets. No additional dependency is required; generation uses Node's built-in
 dotenv parser (Node 20.19+ or a newer Angular-supported version).
 
-### Angular and json-server Together
+### Angular locally
 
 The recommended local development command is:
 
@@ -79,85 +78,22 @@ This starts:
 Angular frontend:
 http://localhost:4200
 
-json-server API:
-http://localhost:3000
+The headless renderer reads content from the configured WordPress backend.
 ```
-
-Contact email submission additionally requires EmailMiddleware on `http://localhost:8080`. The public local settings live in `public/app-config.json` and use Cloudflare's documented test site key. Configure EmailMiddleware with the matching test secret for local development; never use the test pair in production.
-
-Production deployment should generate `app-config.json` with `contactApiUrl` and `turnstileSiteKey`. These are public browser values. SMTP and Turnstile secret credentials belong only in the middleware runtime environment.
 
 This is the preferred command for normal local development.
 
 ---
 
-## Run Only the Content API
+## Content Source
 
-To run `json-server` without starting Angular:
-
-```bash
-npm run api
-```
-
-The API is available at:
-
-```text
-http://localhost:3000
-```
-
-Useful Phase 1 endpoints include:
-
-```text
-GET /profile
-GET /projects
-GET /experience
-GET /contactSubmissions
-```
-
-Example URLs:
-
-```text
-http://localhost:3000/profile
-http://localhost:3000/projects
-http://localhost:3000/experience
-http://localhost:3000/contactSubmissions
-```
+Pages and navigation are loaded by the headless renderer from the configured WordPress backend.
 
 ---
 
 ## Content Source
 
-During Phase 1, portfolio content is stored in:
-
-```text
-server/db.json
-```
-
-Angular components should not access this file or `json-server` endpoints directly.
-
-Content is accessed through the application's repository/data-access architecture.
-
-Current implementation:
-
-```text
-Angular Components
-        |
-        v
-Content Services / Facades
-        |
-        v
-ContentRepository
-        |
-        v
-JsonServerContentRepository
-        |
-        v
-server/db.json
-```
-
-When the project migrates to WordPress, Angular components should continue using the same application-level abstractions.
-
-Backend-specific mapping will be handled by the future `WordPressContentRepository`.
+Pages and navigation are loaded by the headless renderer from the configured WordPress backend.
 
 ---
 
@@ -167,7 +103,7 @@ A typical local development workflow is:
 
 ```text
 1. Install dependencies
-2. Start Angular + json-server
+2. Start Angular
 3. Implement the change
 4. Run relevant tests
 5. Verify the production build when appropriate
@@ -309,7 +245,7 @@ docs/architecture/EMAIL_MIDDLEWARE_ARCHITECTURE.md
 
 ### Future WordPress Backend
 
-The current `json-server` content backend is expected to migrate to WordPress.
+The application uses the WordPress headless renderer as its content backend.
 
 See:
 
@@ -342,12 +278,6 @@ The application must not depend on private documentation in order to build or ru
 ## Troubleshooting
 
 ### Angular Starts but Content Does Not Load
-
-Confirm that `json-server` is running on:
-
-```text
-http://localhost:3000
-```
 
 The easiest approach is normally:
 

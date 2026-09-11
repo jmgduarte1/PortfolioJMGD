@@ -1,5 +1,5 @@
 <div class="loading" [class.loading--compact]="compact()" role="status" aria-live="polite" aria-label="Loading page">
-  <span class="loading__spinner" aria-hidden="true"></span>
+  <mat-spinner class="loading__spinner" [diameter]="compact() ? 20 : 28" aria-hidden="true" />
   @if (loadingMessage(); as message) {
     <span>{{ message }}</span>
   }

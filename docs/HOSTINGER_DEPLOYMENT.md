@@ -59,8 +59,6 @@ servidor de desarrollo.
 | --- | --- |
 | `BACKEND_URL` | URL HTTPS del backend WordPress del renderer, p. ej. `https://cms-staging.example.com` |
 | `DEFAULT_LOCALE` | Locale del contenido, p. ej. `en-CA` o `es-ES` |
-| `CONTACT_API_URL` | Endpoint HTTPS completo, p. ej. `https://api-staging.example.com/api/contact` |
-| `TURNSTILE_SITE_KEY` | Clave pública real de Turnstile autorizada para ese dominio |
 | `SITE_URL` | Origen público del frontend, p. ej. `https://staging.example.com`; sin subdirectorio |
 | `SSH_HOST` | IP IPv4 o hostname de acceso SSH que proporciona hPanel |
 | `SSH_PORT` | Puerto real de hPanel; normalmente `65002` en Web/Cloud |
@@ -124,7 +122,7 @@ y sus secretos. Como protección de las ramas, exigir el check
    que ya tenga WordPress instalado.
 5. Confirmar que `.htaccess`, `mod_rewrite` y `mod_headers` se aplican. Las rutas
    Angular sin archivo físico se sirven mediante `index.html`. Excluir HTML,
-   `app-config.json` y `version.json` del caché de LiteSpeed/CDN si hay una capa
+   `version.json` del caché de LiteSpeed/CDN si hay una capa
    adicional que ignore las cabeceras `no-store`.
 6. Autorizar los dominios de frontend en CORS del backend y EmailMiddleware.
    Configurar Turnstile para esos dominios y su secreto correspondiente solo en

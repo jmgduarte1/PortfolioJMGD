@@ -155,8 +155,17 @@
       }
     }
 
+    .headless-responsive-hero {
+      --wp--style--global--wide-size: min(100% - 70px, 1340px); 
+       --wp--preset--font-size--small: clamp(0.75rem, 0.8vw, 0.875rem);
+    }
+
     .headless-responsive-hero,
     .portfolio-hero {
+       .basic-block--link {
+          padding: clamp(0.5rem, 1vw, 1rem) clamp(0.75rem, 1.5vw, 2.25rem);
+       }
+
       .basic-block__cover-content {
         padding: var(--wp--preset--spacing--40) 0;
       }
@@ -195,6 +204,16 @@
         * {
           width: 45%;
         }
+
+        @media (max-width: 650px) {
+          flex-direction: column;
+          align-items: start;
+
+          * {
+            width: 100%;
+            text-align: left !important;
+          }
+        }
       }
     }
 
@@ -208,6 +227,14 @@
 
         .featured-cards {
           grid-template-columns: repeat(3, minmax(0, 1fr));
+
+          @media (max-width: 800px) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+
+          @media (max-width: 550px) {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+          }
         }
 
         .featured-card__media {
@@ -240,12 +267,14 @@
 
   .headless-page:has(.portfolio-page) {
     background: #f7faf9;
-    margin-top: 0;
+    // margin-top: 0;
     --wp--style--root--padding-left: 0px;
     --wp--style--root--padding-right: 0px;
   }
 
   .portfolio-page {
+    --wp--style--global--wide-size: min(100% - 70px, 1340px);
+    margin-top: var(--wp--preset--spacing--80);
     color: #0c3539;
     font-family: Inter, system-ui, sans-serif;
     p {
@@ -473,6 +502,9 @@
       border: 1px solid #d3e2df;
       border-radius: 18px;
       box-shadow: 0 12px 32px #0a373a0f;
+    }
+    .head-subtext {
+      text-align: right;
     }
     .portfolio-section {
         .featured-card__media {  
@@ -768,8 +800,17 @@
       padding: 250px 0 48px;
       width: calc(100% - 24px);
     }
-    .portfolio-page .portfolio-section {
-      padding: 40px 0;
+    .portfolio-page {
+      .portfolio-section {
+        padding: 40px 0;
+
+        .grid-wrapper {
+          grid-template-columns: repeat(1, minmax(0px, 1fr)) !important;          
+        }
+      }
+      .head-subtext {
+        text-align: left;
+      }
     }
     .portfolio-page .portfolio-section-head {
       flex-direction: column;
@@ -811,7 +852,7 @@
 
         * {
           width: 100%;
-          text-align: left;
+          text-align: left !important;
         }
       }
     }

@@ -218,19 +218,9 @@ ContentRepository
         +--> WordPressContentRepository
 ```
 
-The current Phase 1 implementation uses:
+The current implementation uses the headless WordPress renderer.
 
-```text
-JsonServerContentRepository
-```
-
-A future production implementation is expected to use:
-
-```text
-WordPressContentRepository
-```
-
-Both implementations should satisfy the same application-level repository contract.
+The renderer provides the application-level page and navigation contract.
 
 ---
 
@@ -437,9 +427,9 @@ docs/architecture/EMAIL_MIDDLEWARE_ARCHITECTURE.md
 
 ## WordPress Migration
 
-The current content backend uses `json-server`.
+The current content backend is the configured WordPress headless renderer.
 
-A future phase will migrate content delivery to WordPress while preserving the Angular presentation layer and portfolio domain models.
+Content delivery already uses WordPress while preserving the Angular presentation layer.
 
 See:
 

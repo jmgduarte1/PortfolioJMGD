@@ -27,15 +27,10 @@ export function deploymentConfig(env) {
   try { Intl.getCanonicalLocales(defaultLocale); } catch {
     throw new Error('DEFAULT_LOCALE must be a valid language tag.');
   }
-  const contactApiUrl = httpsUrl('CONTACT_API_URL');
-  const turnstileSiteKey = required('TURNSTILE_SITE_KEY');
-  if (/^[123]x0+[A-Z]{2}$/.test(turnstileSiteKey)) {
-    throw new Error('TURNSTILE_SITE_KEY must be a real domain-configured site key, not a test key.');
-  }
   if (!/^[a-f0-9]{40}$/.test(required('GITHUB_SHA'))) {
     throw new Error('GITHUB_SHA must identify the commit being deployed.');
   }
-  return { backendUrl, defaultLocale, siteUrl, contactApiUrl, turnstileSiteKey, commit: env.GITHUB_SHA };
+  return { backendUrl, defaultLocale, siteUrl, commit: env.GITHUB_SHA };
 }
 
 export function prepareHostinger(directory, env) {
@@ -47,10 +42,6 @@ export function prepareHostinger(directory, env) {
   if (!existsSync(join(directory, 'index.html'))) {
     throw new Error('Static index.html missing (and no index.csr.html). Run npm run build -- --output-mode static first.');
   }
-  writeFileSync(join(directory, 'app-config.json'), JSON.stringify({
-    contactApiUrl: config.contactApiUrl,
-    turnstileSiteKey: config.turnstileSiteKey,
-  }, null, 2) + '\n');
   writeFileSync(join(directory, 'version.json'), JSON.stringify({ commit: config.commit }) + '\n');
   copyFileSync(new URL('../deployment/hostinger.htaccess', import.meta.url), join(directory, '.htaccess'));
 }

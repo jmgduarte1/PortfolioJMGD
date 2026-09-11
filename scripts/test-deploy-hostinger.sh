@@ -10,7 +10,7 @@ export DEPLOY_PATH=/home/u123456789/domains/example.com/public_html
 export SSH_PRIVATE_KEY=fake-key SSH_KNOWN_HOSTS=fake-host-key
 export SITE_URL=https://example.com GITHUB_SHA=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 mkdir -p "$fixture/bin" "$fixture/dist/portfolio-jmgd/browser"
-for file in index.html .htaccess app-config.json version.json; do
+for file in index.html .htaccess version.json; do
   printf 'fixture\n' > "$fixture/dist/portfolio-jmgd/browser/$file"
 done
 cat > "$fixture/bin/ssh" <<'MOCK'
@@ -64,7 +64,7 @@ echo 'PASS: invalid targets, SSH/transfer failures, publication order and releas
 
 # Explicit fixture cleanup; never traverse an arbitrary recursive delete target.
 rm -f "$fixture/bin/ssh" "$fixture/bin/rsync" "$fixture/bin/curl" "$DEPLOY_TEST_LOG"
-for file in index.html .htaccess app-config.json version.json; do
+for file in index.html .htaccess version.json; do
   rm -f "$fixture/dist/portfolio-jmgd/browser/$file"
 done
 cd "$repo"

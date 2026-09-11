@@ -7,7 +7,7 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.html [L]
 
 <IfModule mod_headers.c>
-  <FilesMatch "^(index\.html|app-config\.json|version\.json)$">
+  <FilesMatch "^(index\.html|version\.json)$">
     Header set Cache-Control "no-store, max-age=0"
   </FilesMatch>
 </IfModule>

@@ -20,7 +20,7 @@ done
 [[ "$GITHUB_SHA" =~ ^[a-f0-9]{40}$ ]] || exit 1
 
 source_dir=dist/portfolio-jmgd/browser
-for file in index.html .htaccess app-config.json version.json; do
+for file in index.html .htaccess version.json; do
   test -s "$source_dir/$file"
 done
 

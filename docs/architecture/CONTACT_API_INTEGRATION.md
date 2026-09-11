@@ -344,7 +344,7 @@ The Angular frontend should not depend on permissive CORS behavior.
 
 ## Development Phase
 
-Contact submission now uses the Email Middleware in development and production. `json-server` remains the Phase 1 content source but no longer stores contact messages.
+Contact submission is owned by the WordPress headless renderer and its configured backend.
 
 Conceptually:
 
@@ -370,7 +370,7 @@ Email Middleware
 Email Provider
 ```
 
-The public API URL and Turnstile site key are loaded from `/app-config.json`. Both values are public. Production deployment may generate this public file from environment-specific values, but it must never contain the Turnstile secret or SMTP credentials.
+The former `/app-config.json` and Turnstile runtime configuration are no longer part of this Angular application.
 
 ---
 

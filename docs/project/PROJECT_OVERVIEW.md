@@ -12,8 +12,8 @@ The site is intended to provide recruiters, hiring managers, technical leads, en
 
 - Build a polished, corporate, clean, lightweight personal website.
 - Use Angular and Angular Material as the main frontend stack.
-- Load content from `json-server` during phase 1.
-- Keep the content architecture ready for a phase 2 migration to a WordPress backend.
+- Load content from the WordPress headless renderer.
+- Keep the content architecture aligned with the WordPress backend.
 - Meet Ontario AODA expectations by targeting WCAG 2.0 Level AA, with WCAG 2.1 AA practices where practical.
 - Target Lighthouse performance scores above 90 on desktop and mobile.
 - Support both a single-page homepage experience and deeper routes for detailed content.
@@ -75,7 +75,7 @@ The homepage should summarize; detail routes should provide deeper evidence.
 
 ### Phase 1
 
-Use `json-server` with a local `db.json`.
+Use the configured WordPress backend through the headless renderer.
 
 Suggested collections:
 
@@ -95,7 +95,7 @@ Suggested collections:
 
 ### Phase 2
 
-Replace `json-server` with WordPress REST API or a custom WordPress content endpoint while keeping Angular components independent from backend-specific implementation details.
+Continue evolving the WordPress REST API or custom content endpoint while keeping Angular components independent from backend-specific implementation details.
 
 ### Phase 3
 

@@ -42,7 +42,7 @@ The primary audience includes recruiters, hiring managers, technical leads, and 
 
 ### Content and Data Access
 
-* `json-server` — current development content API
+* `@headless-angular/renderer` — WordPress content and navigation integration
 * Typed application domain models
 * Repository-based content abstraction
 * Planned WordPress REST API integration
@@ -212,7 +212,7 @@ Implemented areas include:
 * Angular Material integration
 * Portfolio content models
 * Repository-based content access
-* `json-server` development backend
+* Configured WordPress content backend
 * Homepage sections
 * Detail routes
 * Contact form UI
@@ -359,7 +359,7 @@ The middleware is planned as a separate deployable repository.
 
 ## WordPress Migration
 
-The current development environment uses `json-server`.
+The current development environment uses the WordPress headless renderer.
 
 The production content architecture is designed to migrate to WordPress through a dedicated repository implementation rather than rewriting Angular components.
 
