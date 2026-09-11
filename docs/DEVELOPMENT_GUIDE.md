@@ -48,7 +48,7 @@ DEFAULT_LOCALE=en-CA
 `BACKEND_URL` sets the headless renderer's backend URL; `DEFAULT_LOCALE` sets
 its default language tag.
 
-The npm start, build, watch, test, and ng scripts generate
+The npm dev, build, watch, test, and ng scripts generate
 `src/app/core/app-environment.generated.ts`, which `app.config.ts` imports.
 `npm run dev` also generates it through `npm start`. Restart the command after
 editing `.env`. When invoking Angular CLI directly, run `npm run config:generate`

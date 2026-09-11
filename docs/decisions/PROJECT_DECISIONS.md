@@ -549,8 +549,11 @@ removes the custom SSH/rsync transfer and its credentials.
 - `BACKEND_URL` and `DEFAULT_LOCALE` are defined separately in each Hostinger
   Web App and require a rebuild when changed.
 - The renderer dependency uses a public HTTPS Git URL so Hostinger can install it.
-- Hostinger uses `dist/portfolio-jmgd` as the output directory and
-  `server/server.mjs` as its entry file.
+- The Hostinger Express preset uses
+  `dist/portfolio-jmgd/server/server.mjs` as the entry file relative to the
+  repository root.
+- The production `npm start` command launches the generated Angular SSR server;
+  local development uses `npm run dev`.
 - The Express server uses Hostinger's `PORT` and defaults to port 3000.
 - Each Web App supplies an explicit `NG_ALLOWED_HOSTS` value and trusts the
   forwarding headers added by Hostinger's managed reverse proxy.
