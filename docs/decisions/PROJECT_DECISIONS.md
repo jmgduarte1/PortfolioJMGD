@@ -485,7 +485,7 @@ Node environment access outside browser code and avoiding new dependencies.
 
 ## PD-024 — Environment-Specific CI/CD for Hostinger Static Hosting
 
-**Status:** Accepted (requires a Web/Cloud hosting target with SSH/rsync)
+**Status:** Superseded by PD-026
 
 GitHub Actions validates pull requests and pushes to `staging` and `produccion`.
 After tests and the normal production browser/server build pass, pushes deploy
@@ -511,8 +511,6 @@ routes on Hostinger Web/Cloud without introducing a Node server on the host.
 
 ---
 
-## Decision Maintenance
-
 ## PD-025 — WordPress Renderer Replaces the Local Phase 1 Stack
 
 **Status:** Accepted
@@ -529,6 +527,38 @@ local contact/Turnstile services, and runtime contact configuration were removed
 - The old `ContentRepository` and `json-server` migration path is historical documentation only.
 
 ---
+
+## PD-026 — Hostinger Managed Angular Web Apps
+
+**Status:** Accepted
+
+Staging and production run as separate Hostinger Node.js Web Apps connected to
+the `staging` and `produccion` GitHub branches. Hostinger builds and deploys each
+push using the environment variables configured on that Web App. GitHub Actions
+continues to validate pull requests and pushes.
+
+### Rationale
+
+The managed Web App supports Angular builds and keeps each environment's public
+build configuration in Hostinger. Current routes use `RenderMode.Client`, so
+Hostinger publishes the browser output. This removes the custom SSH/rsync
+transfer and its credentials.
+
+### Consequences
+
+- `BACKEND_URL` and `DEFAULT_LOCALE` are defined separately in each Hostinger
+  Web App and require a rebuild when changed.
+- The renderer dependency uses a public HTTPS Git URL so Hostinger can install it.
+- Hostinger publishes `dist/portfolio-jmgd/browser`; no entry file or server
+  port is required for the current route configuration.
+- GitHub branch protection must require CI before changes are merged because
+  Hostinger's automatic deployment is triggered independently by the push.
+- SSH deployment scripts, static-hosting preparation, and GitHub deployment
+  secrets are no longer part of the project.
+
+---
+
+## Decision Maintenance
 
 Record a new decision when it materially affects:
 

@@ -6,7 +6,7 @@ import {
   NavigationItem,
   NavigationRendererComponent,
   NavigationService,
-} from '@headless-angular/renderer';
+} from '@jmgduarte/wp-angular-renderer';
 import { catchError, map, of, shareReplay, startWith } from 'rxjs';
 import { Loader } from '../../loader/loader';
 

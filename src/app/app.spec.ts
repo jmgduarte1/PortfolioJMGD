@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { NavigationSchema, NavigationService } from '@headless-angular/renderer';
+import { NavigationSchema, NavigationService } from '@jmgduarte/wp-angular-renderer';
 import { of } from 'rxjs';
 import { App } from './app';
 

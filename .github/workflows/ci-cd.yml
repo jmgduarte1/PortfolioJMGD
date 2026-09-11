@@ -1,4 +1,4 @@
-name: Portfolio CI/CD
+name: Portfolio CI
 
 on:
   pull_request:
@@ -10,10 +10,9 @@ on:
 permissions:
   contents: read
 
-# Do not interrupt a file transfer when a newer push arrives.
 concurrency:
   group: portfolio-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 defaults:
   run:
@@ -33,66 +32,8 @@ jobs:
           node-version: '24'
           cache: npm
       - name: Install locked dependencies
-        env:
-          RENDERER_READ_TOKEN: ${{ secrets.RENDERER_READ_TOKEN }}
-        run: bash scripts/ci-install.sh
-      - name: Check deployment scripts
-        run: |
-          for script in scripts/*.sh; do bash -n "$script"; done
-          npm run test:deployment
-          bash scripts/test-deploy-hostinger.sh
+        run: npm ci --no-audit --no-fund
       - name: Angular tests
         run: npm test -- --watch=false
       - name: Production browser and server build
         run: npm run build
-
-  deploy:
-    name: Deploy to Hostinger
-    needs: ci
-    if: >-
-      github.event_name != 'pull_request' &&
-      (github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/produccion')
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    environment:
-      name: ${{ github.ref_name == 'staging' && 'Staging' || 'Produccion' }}
-      url: ${{ vars.SITE_URL }}
-    env:
-      BACKEND_URL: ${{ vars.BACKEND_URL }}
-      DEFAULT_LOCALE: ${{ vars.DEFAULT_LOCALE }}
-      SITE_URL: ${{ vars.SITE_URL }}
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '24'
-          cache: npm
-      - name: Validate environment (no localhost fallbacks)
-        run: node scripts/prepare-hostinger.mjs --validate-only
-      - name: Install locked dependencies
-        env:
-          RENDERER_READ_TOKEN: ${{ secrets.RENDERER_READ_TOKEN }}
-        run: bash scripts/ci-install.sh
-      - name: Build static Hostinger site with environment values
-        run: npm run build -- --output-mode static
-      - name: Prepare release identity and SPA routing
-        run: node scripts/prepare-hostinger.mjs
-      - name: Save deployable artifact
-        uses: actions/upload-artifact@v7
-        with:
-          name: portfolio-${{ github.ref_name }}-${{ github.sha }}
-          path: dist/portfolio-jmgd/browser/
-          include-hidden-files: true
-          if-no-files-found: error
-          retention-days: 14
-      - name: Upload to Hostinger and verify release
-        env:
-          SSH_HOST: ${{ vars.SSH_HOST }}
-          SSH_PORT: ${{ vars.SSH_PORT }}
-          SSH_USER: ${{ vars.SSH_USER }}
-          DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
-        run: bash scripts/deploy-hostinger.sh

@@ -4,7 +4,7 @@ import { provideRouter, withInMemoryScrolling } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { provideHeadlessRenderer } from '@headless-angular/renderer';
+import { provideHeadlessRenderer } from '@jmgduarte/wp-angular-renderer';
 import { appEnvironment } from './core/app-environment.generated';
 
 export const appConfig: ApplicationConfig = {
