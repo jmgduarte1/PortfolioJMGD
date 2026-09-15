@@ -1,7 +1,6 @@
 import { AsyncPipe, DOCUMENT, isPlatformBrowser, JsonPipe } from '@angular/common';
 import { Component, inject, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-// import { HeadlessPageRendererComponent, PageService } from '@jmgduarte/wp-angular-renderer';
 import { PremiumPageRendererComponent, PremiumPageService } from '@jmgduarte/wp-angular-renderer-premium';
 import { catchError, combineLatest, distinctUntilChanged, map, of, startWith, switchMap, type Observable } from 'rxjs';
 import { Loader } from '../loader/loader';
