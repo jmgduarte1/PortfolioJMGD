@@ -15,6 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay()),
     provideHeadlessRenderer({
       apiBaseUrl: appEnvironment.apiBaseUrl,
+      frontendBaseUrl: appEnvironment.frontendBaseUrl,
       defaultLocale: appEnvironment.defaultLocale,
       restRouteMode: 'pretty',
       unsupportedBlockStrategy: 'fallback',

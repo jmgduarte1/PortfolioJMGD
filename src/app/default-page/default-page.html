@@ -2,7 +2,7 @@
   @if (state.status === 'loading') {
     <app-loader [loadingMessage]="'Loading Page...'" />
   } @else if (state.status === 'loaded') {
-    <headless-page-renderer [schema]="state.schema" />
+    <headless-premium-page-renderer [schema]="state.schema" [titleFormatter]="formatTitle" />
   } @else {
     <main class="demo-error" role="alert">
       <h1>Headless renderer demo</h1>

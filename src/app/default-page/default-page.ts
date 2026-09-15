@@ -1,12 +1,13 @@
 import { AsyncPipe, DOCUMENT, isPlatformBrowser, JsonPipe } from '@angular/common';
 import { Component, inject, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HeadlessPageRendererComponent, PageService } from '@jmgduarte/wp-angular-renderer';
+// import { HeadlessPageRendererComponent, PageService } from '@jmgduarte/wp-angular-renderer';
+import { PremiumPageRendererComponent, PremiumPageService } from '@jmgduarte/wp-angular-renderer-premium';
 import { catchError, combineLatest, distinctUntilChanged, map, of, startWith, switchMap, type Observable } from 'rxjs';
 import { Loader } from '../loader/loader';
 
 type ObservableValue<T> = T extends Observable<infer Value> ? Value : never;
-type PageSchema = ObservableValue<ReturnType<PageService['getPage']>>;
+type PageSchema = ObservableValue<ReturnType<PremiumPageService['getPage']>>;
 
 type DefaultPageState =
   | { status: 'loading' }
@@ -23,13 +24,13 @@ interface DefaultPageError {
 
 @Component({
   selector: 'app-default-page',
-  imports: [AsyncPipe, JsonPipe, HeadlessPageRendererComponent, Loader],
+  imports: [AsyncPipe, JsonPipe, PremiumPageRendererComponent, Loader],
   templateUrl: './default-page.html',
   styleUrl: './default-page.scss',
 })
 export class DefaultPage {
   private readonly route = inject(ActivatedRoute);
-  private readonly pageService = inject(PageService);
+  private readonly pageService = inject(PremiumPageService);
   private readonly document = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);
 
@@ -122,5 +123,16 @@ export class DefaultPage {
     }
 
     return cause;
+  }
+
+  formatTitle(title: string): string {
+    const normalized = title.trim();
+    if (normalized === 'home') {
+      return 'Juan Manuel Gomez | Senior Software Engineer & Technical Lead';
+    }
+
+    const displayTitle = normalized.length > 0 ? normalized.charAt(0).toUpperCase() + normalized.slice(1) : 'Home';
+
+    return `${displayTitle} | Juan Manuel Gomez`;
   }
 }
