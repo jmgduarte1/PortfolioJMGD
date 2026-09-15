@@ -10,6 +10,7 @@ const value = (name) => (process.env[name] ?? local[name] ?? defaults[name]).tri
 const environment = {
   apiBaseUrl: value('BACKEND_URL'),
   defaultLocale: value('DEFAULT_LOCALE'),
+  frontendBaseUrl: value('FRONTEND_URL')
 };
 
 let backendUrl;

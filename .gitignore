@@ -45,6 +45,9 @@ testem.log
 __screenshots__/
 .vscode/
 .agent-local/
+test.json
+package-lock.local.json
+package.local.json
 
 # System files
 .DS_Store
