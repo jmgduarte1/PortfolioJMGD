@@ -4,7 +4,7 @@ import { parseEnv } from 'node:util';
 const envFile = new URL('../.env', import.meta.url);
 const defaults = parseEnv(readFileSync(new URL('../.env.example', import.meta.url), 'utf8'));
 const local = existsSync(envFile) ? parseEnv(readFileSync(envFile, 'utf8')) : {};
-const value = (name) => (process.env[name] ?? local[name] ?? defaults[name] ?? '').trim();
+const value = (name) => (process.env[name] ?? local[name] ?? defaults[name]).trim();
 
 // Only these public settings are included in the browser and server bundles.
 const environment = {
