@@ -1,12 +1,11 @@
 import { AsyncPipe, DOCUMENT, isPlatformBrowser, JsonPipe } from '@angular/common';
 import { Component, inject, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PremiumPageRendererComponent, PremiumPageService } from '@jmgduarte/wp-angular-renderer-premium';
-import { catchError, combineLatest, distinctUntilChanged, map, of, startWith, switchMap, type Observable } from 'rxjs';
+import { PremiumPageRendererComponent } from '@jmgduarte/headless-angular-premium';
+import type { PageSchema } from '@jmgduarte/headless-core';
+import { catchError, combineLatest, distinctUntilChanged, map, of, startWith, switchMap } from 'rxjs';
 import { Loader } from '../loader/loader';
-
-type ObservableValue<T> = T extends Observable<infer Value> ? Value : never;
-type PageSchema = ObservableValue<ReturnType<PremiumPageService['getPage']>>;
+import { HeadlessContentService } from '../core/headless-content.service';
 
 type DefaultPageState =
   | { status: 'loading' }
@@ -29,7 +28,7 @@ interface DefaultPageError {
 })
 export class DefaultPage {
   private readonly route = inject(ActivatedRoute);
-  private readonly pageService = inject(PremiumPageService);
+  private readonly contentService = inject(HeadlessContentService);
   private readonly document = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);
 
@@ -40,7 +39,7 @@ export class DefaultPage {
     })),
     distinctUntilChanged((previous, current) => previous.slug === current.slug && previous.fragment === current.fragment),
     switchMap(({ slug, fragment }) =>
-      this.pageService.getPage(slug).pipe(
+      this.contentService.getPage(slug).pipe(
         map((schema): DefaultPageState => {
           if (fragment) {
             this.scrollToFragment(fragment);

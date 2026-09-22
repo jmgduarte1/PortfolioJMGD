@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { NavigationSchema, NavigationService } from '@jmgduarte/wp-angular-renderer';
+import type { NavigationSchema } from '@jmgduarte/headless-core';
 import { of } from 'rxjs';
 import { App } from './app';
+import { HeadlessContentService } from './core/headless-content.service';
 
 describe('App', () => {
   const primaryMenu: NavigationSchema = {
@@ -35,9 +36,9 @@ describe('App', () => {
           { path: 'projects', children: [] },
         ]),
         {
-          provide: NavigationService,
+          provide: HeadlessContentService,
           useValue: {
-            getMenu: () => of(primaryMenu),
+            getNavigation: () => of(primaryMenu),
           },
         },
       ],

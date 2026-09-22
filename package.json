@@ -30,8 +30,10 @@
     "@angular/platform-server": "^21.2.22",
     "@angular/router": "^21.2.22",
     "@angular/ssr": "^21.2.22",
-    "@jmgduarte/wp-angular-renderer": "^0.0.2",
-    "@jmgduarte/wp-angular-renderer-premium": "file:vendor/npm/jmgduarte-wp-angular-renderer-premium-0.0.1.tgz",
+    "@jmgduarte/headless-angular": "^0.0.3",
+    "@jmgduarte/headless-angular-premium": "file:vendor/npm/jmgduarte-headless-angular-premium-0.0.1.tgz",
+    "@jmgduarte/headless-core": "^0.0.1",
+    "@jmgduarte/headless-rest": "^0.0.1",
     "express": "^5.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"

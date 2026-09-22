@@ -42,7 +42,10 @@ The primary audience includes recruiters, hiring managers, technical leads, and 
 
 ### Content and Data Access
 
-* `@jmgduarte/wp-angular-renderer` — WordPress content and navigation integration
+* `@jmgduarte/headless-angular` — schema-based page and navigation rendering
+* `@jmgduarte/headless-angular-premium` — page rendering with SEO metadata
+* `@jmgduarte/headless-rest` — REST content client for the WordPress renderer API
+* `@jmgduarte/headless-core` — shared page and navigation contracts
 * Typed application domain models
 * Repository-based content abstraction
 * Planned WordPress REST API integration

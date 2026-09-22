@@ -54,8 +54,11 @@ el entry abre el puerto inmediatamente y delega las solicitudes a
 El bundle generado por Angular exporta el handler SSR y no abre un segundo
 servidor; el único `listen()` pertenece al entry `server.js`.
 
-La dependencia pública `@jmgduarte/wp-angular-renderer` se instala desde npm para que Hostinger
-pueda instalarla sin una clave SSH adicional.
+El renderer se compone de `@jmgduarte/headless-angular`,
+`@jmgduarte/headless-angular-premium`, `@jmgduarte/headless-rest` y
+`@jmgduarte/headless-core`. Las dependencias actuales de Angular y Premium se
+resuelven desde las ramas `dist` de GitHub; confirma que el entorno de build de
+Hostinger tenga acceso a esos repositorios antes de desplegar.
 
 ## Variables de entorno en Hostinger
 
