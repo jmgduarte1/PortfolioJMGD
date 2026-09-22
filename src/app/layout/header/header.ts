@@ -1,14 +1,11 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import {
-  LinkModel,
-  NavigationItem,
-  NavigationRendererComponent,
-  NavigationService,
-} from '@jmgduarte/wp-angular-renderer';
+import { NavigationRendererComponent } from '@jmgduarte/headless-angular';
+import type { LinkModel, NavigationItem } from '@jmgduarte/headless-core';
 import { catchError, map, of, shareReplay, startWith } from 'rxjs';
 import { Loader } from '../../loader/loader';
+import { HeadlessContentService } from '../../core/headless-content.service';
 
 type NavigationState =
   | { status: 'loading' }
@@ -31,9 +28,9 @@ interface NavigationError {
 })
 export class Header {
   private readonly router = inject(Router);
-  private readonly navigationService = inject(NavigationService);
+  private readonly contentService = inject(HeadlessContentService);
 
-  readonly menuState$ = this.navigationService.getMenu('primary').pipe(
+  readonly menuState$ = this.contentService.getNavigation('primary').pipe(
     map((schema): NavigationState => ({
       status: 'loaded',
       ariaLabel: schema.menu.ariaLabel,
