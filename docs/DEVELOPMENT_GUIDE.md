@@ -307,6 +307,20 @@ npm run build
 
 and address the reported TypeScript, Angular, SSR, or build configuration error rather than bypassing the production build.
 
+### Verify SSR TransferState Hydration
+
+To verify that the Home page and primary navigation are not requested twice:
+
+1. Start the production SSR server with `npm run build` followed by `npm start`.
+2. Open the site in a Chromium browser and open DevTools **Network**.
+3. Enable **Preserve log**, disable the browser cache if needed, and reload the page.
+4. Filter requests by `headless-renderer` and inspect the requests for:
+   - `/wp-json/headless-renderer/v1/pages/home`
+   - `/wp-json/headless-renderer/v1/menus/primary`
+5. Confirm that no browser request appears for either resource during hydration. The SSR-to-WordPress requests run on the server and are not shown in the browser's Network panel; confirm those separately in the SSR server logs or backend access logs if needed.
+
+The browser should consume and remove the corresponding `TransferState` entries. A browser request is expected only when the SSR response does not contain the resource, the transferred state is stale or unavailable, or a different slug, location, or locale is requested.
+
 ---
 
 ## Related Documentation
